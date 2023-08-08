@@ -5,14 +5,77 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AJAX Project</title>
   <link rel="icon" href="images/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <header>
+    <div class="container page-header flex">
+      <div class="column-full">
+        <h1 class="heading">BoreNoMore</h1>
+      </div>
+    </div>
   </header>
-  <main>
+  <main class="container">
+    <div class="flex">
+      <div class="top-activity column-two-third">
+        <h2 class="title">Top Activities</h2>
+        <div class="search-area">
+          <p class="inline">Search:</p>
+          <input class="search-input" type="text" placeholder="Search for an activity type ">
+          <div class="filter">
+            <i class="fa-solid fa-filter"></i>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="activity-table">
+            <thead class="table-header">
+              <tr>
+                <th class="num-column">#</th>
+                <th class="activity-column">Activity</th>
+                <th class="type-column">Type</th>
+                <th class="participant-column">Part-<br>icipant</th>
+                <th class="accessibility-column">Access-<br>ibility</th>
+                <th class="price-column">Price</th>
+                <th class="link-column">Link</th>
+              </tr>
+            </thead>
+            <tbody class="table-body"></tbody>
+          </table>
+        </div>
+        <div class="flex notes">
+          <p class="column-half">
+            <span class="bold">Accessibility:</span> zero for being the most accessible
+          </p>
+          <p class="column-half">
+            <span class="bold">Price:</span> zero for being free
+          </p>
+        </div>
+      </div>
+      <div class="random-generator column-one-third">
+        <h2 class="title">Random Generator</h2>
+        <p class="center">Generate a random activity</p>
+        <button class="btn-generate">Generate</button>
+        <h3 class="title">Random Activity</h3>
+        <div class="random-activity-output">
+          <p><span class="bold">Activity: </span><span>Learn Express.js</span></p>
+          <p><span class="bold">Type: </span><span>Education</span></p>
+          <p><span class="bold">Participant: </span><span>1</span></p>
+          <p><span class="bold">Accessibility: </span><span>0.25</span></p>
+          <p><span class="bold">Price: </span><span></span>0.1</p>
+          <p><span class="bold">Link: </span><span>https://expressjs.com/</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="feedback">
+      <h3 class="title feedback-title">Feedback</h3>
+      <input class="feedback-input" type="text" placeholder="Your feedback is valuable! Share your activity suggestions!">
+      <button class="btn-send">Send</button>
+    </div>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
