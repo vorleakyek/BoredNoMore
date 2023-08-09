@@ -1,5 +1,4 @@
 const allTypes = ['education', 'recreational', 'social', 'diy', 'charity', 'cooking', 'relaxation', 'music', 'busywork'];
-// const allColumns = ['Activity', 'Type', 'Participants', 'Price', 'Accessibility'];
 const tbody = document.querySelector('tbody.table-body');
 
 /** *** Fetching the data from the bored API *****/
@@ -78,8 +77,7 @@ function linkCell(tr, link, className) {
   tr.append(td);
 }
 
-// Need to reload the page for this to change --- keep working on it
-
+// Change the column header text to two lines in a small device
 window.addEventListener('resize', () => {
   if (window.innerWidth >= 844) {
     document.querySelector('.participant-column').textContent = 'Participant';
