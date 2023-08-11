@@ -1,0 +1,46 @@
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.column-full {
+  width: 100%;
+}
+
+.column-one-third {
+  width: 33.3%;
+}
+
+.column-two-third {
+  width: 66.7%;
+}
+
+.column-half {
+  width: 50%;
+}
+
+@media screen and (max-width: 844px) {
+  .column-two-third,
+  .column-one-third {
+    width: 100%;
+  }
+
+  .column-half {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .column-half {
+    width: 40%;
+  }
+
+  div.table-wrapper {
+    height: 31rem;
+  }
+}
