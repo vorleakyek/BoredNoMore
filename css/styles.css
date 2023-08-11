@@ -117,6 +117,7 @@ td,
 }
 
 /* Search and filter */
+
 .search-area {
   margin: 0.6rem;
   text-align: center;
@@ -131,13 +132,11 @@ td,
 }
 
 .search-input {
-  display: inline;
   border: none;
-  border-radius: 2.1rem;
   width: 55%;
   background-color: #f0f0f0;
-  text-align: center;
   padding: 0.5rem;
+  color: #0e5858;
 }
 
 .filter {
@@ -148,6 +147,39 @@ i {
   color: #07b2b2;
   font-size: 1.56rem;
   margin-left: 1rem;
+}
+
+.search-box {
+  border: 0.063rem solid #0e5858;
+  display: inline;
+  border-radius: 2.1rem;
+  background-color: #f0f0f0;
+  text-align: center;
+  padding: 0.5rem 0.8rem;
+}
+
+.fa-search {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.fa-search:hover {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.fa-search:active,
+.fa-filter:active {
+  color: #258697;
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+.fa-filter:hover {
+  font-size: 1.6rem;
+  cursor: pointer;
 }
 
 /* Feedback */
