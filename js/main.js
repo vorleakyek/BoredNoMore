@@ -1,7 +1,9 @@
 const allTypes = ['education', 'recreational', 'social', 'diy', 'charity', 'cooking', 'relaxation', 'music', 'busywork'];
 const tbody = document.querySelector('tbody.table-body');
+const activityHeader = document.querySelector('.activity-column');
+const tableWrapper = document.querySelector('.table-wrapper');
 
-/** *** Fetching the data from the bored API *****/
+// ***************** IMPLEMENTING FEATURE 1 - Fetch data and show table **********//
 async function getActivityObj(type) {
   try {
     const response = await fetch(`http://www.boredapi.com/api/activity?type=${type}`);
@@ -29,8 +31,13 @@ if (data.activities.length === 0) {
 
 // Need to wait for a few seconds for all the data from API to be fully retrieved
 setTimeout(() => {
-  for (let i = 0; i < data.activities.length; i++) {
-    const { activity, type, participants, price, accessibility, link } = data.activities[i];
+  createTableBody(data.activities);
+}, 1000);
+
+function createTableBody(array) {
+  for (let i = 0; i < array.length; i++) {
+    activityHeader.classList.add('activity-column-padding');
+    const { activity, type, participants, price, accessibility, link } = array[i];
     const tr = document.createElement('tr');
     tr.classList.add('border');
     tbody.append(tr);
@@ -49,7 +56,7 @@ setTimeout(() => {
     }
     linkCell(tr, link, 'link-cell');
   }
-}, 1000);
+}
 
 function displayEachCell(tr, text, className) {
   const td = document.createElement('td');
@@ -78,7 +85,7 @@ function linkCell(tr, link, className) {
 }
 
 // Change the column header text to two lines in a small device
-window.addEventListener('resize', () => {
+function TableHeaderStyle() {
   if (window.innerWidth >= 844) {
     document.querySelector('.participant-column').textContent = 'Participant';
     document.querySelector('.accessibility-column').textContent = 'Accessibility';
@@ -86,4 +93,63 @@ window.addEventListener('resize', () => {
     document.querySelector('.participant-column').textContent = 'Part-' + '\n' + 'icipant';
     document.querySelector('.accessibility-column').textContent = 'Access-' + '\n' + 'ibility';
   }
+}
+
+window.addEventListener('resize', () => {
+  TableHeaderStyle();
 });
+
+window.addEventListener('DOMContentLoaded', () => {
+  TableHeaderStyle();
+});
+
+// *********************** IMPLEMENTING FEATURE 2 - SEARCH ******************** //
+const searchInput = document.querySelector('#search-input');
+let searchValue = null;
+
+const searchForm = document.querySelector('#search-form');
+searchForm.addEventListener('input', event => {
+  event.preventDefault();
+  activityHeader.classList.add('activity-column-padding');
+  searchValue = searchInput.value.toLowerCase();
+  const result = matchedResult();
+  tbody.textContent = '';
+  result.length === 0 ? noMatchFound() : createTableBody(result);
+  result.length <= 16 ? tableWrapper.classList.remove('height') : tableWrapper.classList.add('height');
+
+});
+
+function matchedResult() {
+  const result = data.activities.filter(element => matchedCriteria(element));
+  return result;
+}
+
+function matchedCriteria(element) {
+  let { activity, type, participants, price, accessibility } = element;
+  activity = activity.toLowerCase();
+  type = type.toLowerCase();
+  participants = participants.toString();
+  accessibility = accessibility.toString();
+  price = price.toString();
+  const matchedType = searchValue.includes(type) || type.includes(searchValue);
+  const matchedActivity = searchValue.includes(activity) || activity.includes(searchValue);
+  const matchedParticipants = searchValue === participants;
+  const matchedAccessibility = searchValue === accessibility;
+  const matchedPrice = searchValue === price;
+  return matchedType || matchedActivity || matchedParticipants || matchedAccessibility || matchedPrice;
+}
+
+function noMatchFound() {
+  const tr = document.createElement('tr');
+  tr.classList.add('not-found');
+  tbody.append(tr);
+  const td = document.createElement('td');
+  tr.append(td);
+  td.setAttribute('colspan', '7');
+  td.textContent = 'No match found!';
+  td.classList.add('not-found-padding');
+  activityHeader.classList.remove('activity-column-padding');
+}
+
+// *********************** IMPLEMENTING FEATURE 3 - Filter ******************** //
+// const filterIcon = document.querySelector('.fa-filter');

@@ -24,7 +24,7 @@
     <div class="flex">
       <div class="top-activity bg-2 column-two-third">
         <h2 class="title">Top Activities</h2>
-        <div class="search-area">
+        <form class="search-area" id="search-form" autocomplete="off">
           <label for="search-input" class="inline">Search: </label>
           <div class="search-box">
             <input id="search-input" name="search-input" class="search-input" type="text"
@@ -34,13 +34,13 @@
           <div class="filter">
             <i class="fa-solid fa-filter"></i>
           </div>
-        </div>
-        <div class="table-wrapper">
+        </form>
+        <div class="table-wrapper height">
           <table class="activity-table">
             <thead class="table-header">
               <tr>
                 <th class="num-column">#</th>
-                <th class="activity-column">Activity</th>
+                <th class="activity-column activity-column-padding">Activity</th>
                 <th class="type-column">Type</th>
                 <th class="participant-column">Part-<br>icipant</th>
                 <th class="accessibility-column">Access-<br>ibility</th>
