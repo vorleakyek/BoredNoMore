@@ -50,6 +50,15 @@ th {
   padding-top: 1rem;
 }
 
+.not-found {
+  text-align: center;
+  vertical-align: center;
+}
+
+.not-found-padding {
+  padding: 5rem 0;
+}
+
 /* Top Activities Section */
 td,
 .num-column,
@@ -66,8 +75,11 @@ td,
 
 .table-wrapper {
   overflow-x: auto;
-  height: 18rem;
   margin: 0.6rem;
+}
+
+.height {
+  height: 18rem;
 }
 
 .type-cell {
@@ -78,12 +90,14 @@ td,
   padding-left: 0.6rem;
 }
 
-.activity-column {
+.activity-column-padding {
   padding-right: 6rem;
 }
 
 .activity-table {
   border-collapse: collapse;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .table-body {
@@ -117,7 +131,6 @@ td,
 }
 
 /* Search and filter */
-
 .search-area {
   margin: 0.6rem;
   text-align: center;
@@ -161,16 +174,6 @@ i {
 .fa-search {
   font-size: 1.2rem;
   margin: 0;
-}
-
-.fa-search:hover {
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-.fa-search:active,
-.fa-filter:active {
-  color: #258697;
 }
 
 .search-input:focus {
