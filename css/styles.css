@@ -2,13 +2,14 @@
 body {
   color: #0e5858;
   background-color: #fdf5e6;
+  position: relative;
 }
 
 p {
   margin: 0.3rem;
 }
 
-button {
+.btn-general {
   display: flex;
   justify-content: center;
   margin: 0.6rem auto;
@@ -42,6 +43,10 @@ th {
   font-weight: bold;
 }
 
+.hidden {
+  display: none;
+}
+
 /* Page header */
 .heading {
   font-size: 1.5rem;
@@ -70,7 +75,9 @@ td,
   background-color: #48bcd1;
   color: white;
   text-align: center;
-  border: 0.06rem #48bcd1 solid;
+  border-left: 0.06rem #48bcd1 solid;
+  position: sticky;
+  top: 0;
 }
 
 .table-wrapper {
@@ -131,9 +138,13 @@ td,
 }
 
 /* Search and filter */
+.search-filter-wrapper {
+  align-items: baseline;
+}
+
 .search-area {
-  margin: 0.6rem;
-  text-align: center;
+  margin: 0.6rem 0;
+  text-align: right;
 }
 
 .inline {
@@ -154,12 +165,16 @@ td,
 
 .filter {
   display: inline;
+  border: none;
+  background-color: transparent;
+  width: 1.7rem;
+  margin-left: 1.1rem;
+  padding: 0;
 }
 
 i {
   color: #07b2b2;
   font-size: 1.56rem;
-  margin-left: 1rem;
 }
 
 .search-box {
@@ -200,10 +215,92 @@ i {
   background-color: #f0f0f0;
   border: none;
   padding: 1.25rem 0.6rem;
+  height: 7rem;
+  vertical-align: top;
 }
 
 .feedback-wrapper {
   display: flex;
   justify-content: start;
   background-color: #baf4ff;
+}
+
+/* Filter Modal and filter pill */
+.overlay {
+  position: absolute;
+  width: 100vw;
+  height: 100%;
+  background-color: rgb(15 54 54 / 92%);
+  z-index: 1;
+}
+
+.filter-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.modal {
+  background-color: white;
+  border-radius: 0.3rem;
+  flex-basis: 100%;
+}
+
+label {
+  display: flex;
+}
+
+.options {
+  margin: 0 0.625rem 0.625rem;
+  justify-content: space-around;
+}
+
+.div-btn-modal {
+  flex-basis: 50%;
+  text-align: center;
+}
+
+.cancel {
+  background-color: #b0b0b0;
+  border-radius: 0 0 0 0.3rem;
+}
+
+.apply {
+  background-color: #07b2b2;
+  border-radius: 0 0 0.3rem;
+}
+
+.btn-modal {
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 0.3rem 1.25rem;
+}
+
+div.cancel button:focus {
+  outline: none;
+}
+
+div.apply button:focus {
+  outline: none;
+}
+
+.filter-pill {
+  margin-left: 0.625rem;
+}
+
+.filter-pill-button {
+  background-color: salmon;
+  border: none;
+  padding: 0.3rem 0.625rem;
+  border-radius: 0.33rem;
+  color: #0e5858;
+  font-weight: bold;
+}
+
+.fa-x {
+  font-size: 0.75rem;
+  color: #0e5858;
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +13,9 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
+  <div class="overlay hidden"></div>
   <header>
     <div class="container bg-1 flex">
       <div class="column-full">
@@ -24,14 +27,26 @@
     <div class="flex">
       <div class="top-activity bg-2 column-two-third">
         <h2 class="title">Top Activities</h2>
-        <form class="search-area" id="search-form" autocomplete="off">
-          <label for="search-input" class="inline">Search: </label>
-          <div class="search-box">
-            <input id="search-input" name="search-input" class="search-input" type="text"
-              placeholder="Search for an activity type ">
-            <i class="fas fa-search"></i>
+        <div class="search-filter-wrapper flex">
+          <div class="column-1">
+            <form class="search-area" id="search-form" autocomplete="off">
+              <label for="search-input" class="inline">Search: </label>
+              <div class="search-box">
+                <input id="search-input" name="search-input" class="search-input" type="text"
+                  placeholder="Search for an activity type ">
+                <i class="fas fa-search"></i>
+              </div>
+            </form>
           </div>
-        </form>
+          <div class="column-2">
+            <button class="filter">
+              <i class="fa-solid fa-filter"></i>
+            </button>
+          </div>
+        </div>
+        <div class="filter-pill hidden">
+          <button class="filter-pill-button">Clear filter <i class="fa-solid fa-x"></i></button>
+        </div>
         <div class="table-wrapper height">
           <table class="activity-table">
             <thead class="table-header">
@@ -60,7 +75,7 @@
       <div class="random-generator column-one-third">
         <h2 class="title">Random Generator</h2>
         <p class="center">Generate a random activity</p>
-        <button>Generate</button>
+        <button class="btn-general">Generate</button>
         <h3 class="title">Random Activity</h3>
         <div class="random-activity-output">
           <p><span class="bold">Activity: </span><span>Learn Express.js</span></p>
@@ -75,12 +90,74 @@
     <div class="feedback-wrapper">
       <div class="feedback column-two-third">
         <h3 class="title">Feedback</h3>
-        <input class="feedback-input" type="text" placeholder="Your feedback is valuable! Share your activity suggestions!">
-        <button>Send</button>
+        <form action="">
+          <label for="feedback"></label>
+          <input class="feedback-input" type="text" id="feedback"
+            placeholder="Your feedback is valuable! Share your activity suggestions!">
+        </form>
+        <button class="btn-general">Send</button>
       </div>
     </div>
   </main>
+  <div class="filter-modal flex hidden">
+    <div class="modal">
+      <form id="form-filter-modal" action="">
+        <h3 class="title">Filter by type</h3>
+        <div class="options flex">
+          <div class="column-half">
+            <label for="filter">
+              <input type="checkbox" name="filter" value="education">
+              Education
+            </label>
+            <label for="filter">
+              <input type="checkbox" name="filter" value="recreational">
+              Recreational
+            </label>
+            <label for="filter">
+              <input type="checkbox" name="filter" value="social">
+              Social
+            </label>
+            <label for="filter">
+              <input type="checkbox" name="filter" value="diy">
+              DIY
+            </label>
+            <label for="filter">
+              <input type="checkbox" name="filter" value="busywork">
+              Busywork
+            </label>
+          </div>
+          <div class="column-half">
+            <label for="filter">
+              <input type="checkbox" name="filter" value="charity">
+              Charity
+            </label>
+            <label for="filter">
+              <input type="checkbox" name="filter" value="cooking">
+              Cooking
+            </label>
+            <label for="filter">
+              <input type="checkbox" name="filter" value="relaxation">
+              Relaxation
+            </label>
+            <label for="filter">
+              <input type="checkbox" name="filter" value="music">
+              Music
+            </label>
+          </div>
+        </div>
+        <div class="modal-button flex">
+          <div id="cancel" class="div-btn-modal cancel">
+            <button class="btn-modal">Cancel</button>
+          </div>
+          <div id="apply" class="div-btn-modal apply">
+            <button class="btn-modal">Apply</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
+
 </html>

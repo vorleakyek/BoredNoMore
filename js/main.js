@@ -108,6 +108,7 @@ const searchInput = document.querySelector('#search-input');
 let searchValue = null;
 
 const searchForm = document.querySelector('#search-form');
+
 searchForm.addEventListener('input', event => {
   event.preventDefault();
   activityHeader.classList.add('activity-column-padding');
@@ -116,7 +117,6 @@ searchForm.addEventListener('input', event => {
   tbody.textContent = '';
   result.length === 0 ? noMatchFound() : createTableBody(result);
   result.length <= 16 ? tableWrapper.classList.remove('height') : tableWrapper.classList.add('height');
-
 });
 
 searchForm.addEventListener('submit', event => {
@@ -154,3 +154,57 @@ function noMatchFound() {
   td.classList.add('not-found-padding');
   activityHeader.classList.remove('activity-column-padding');
 }
+
+// *********************** IMPLEMENTING FEATURE 3 - Filter ******************** //
+const filterButton = document.querySelector('.filter');
+const overlay = document.querySelector('.overlay');
+const filterModel = document.querySelector('.filter-modal');
+const cancel = document.querySelector('#cancel');
+const apply = document.querySelector('#apply');
+const form = document.querySelector('#form-filter-modal');
+const filterPill = document.querySelector('.filter-pill');
+const filterPillButton = document.querySelector('.filter-pill-button');
+
+filterButton.addEventListener('click', event => {
+  event.preventDefault();
+  overlay.classList.remove('hidden');
+  filterModel.classList.remove('hidden');
+});
+
+cancel.addEventListener('click', event => {
+  event.preventDefault();
+  hideModal();
+});
+
+function hideModal() {
+  overlay.classList.add('hidden');
+  filterModel.classList.add('hidden');
+}
+
+apply.addEventListener('click', event => {
+  event.preventDefault();
+  const checked = document.querySelectorAll('input[name="filter"]:checked');
+  const arraySelected = [];
+
+  checked.forEach(select => {
+    arraySelected.push(select.value);
+  });
+
+  const stringInput = arraySelected.join(' ');
+  const result = data.activities.filter(element =>
+    element.type.includes(stringInput) || stringInput.includes(element.type));
+  tbody.textContent = '';
+  createTableBody(result);
+  result.length <= 16 ? tableWrapper.classList.remove('height') : tableWrapper.classList.add('height');
+  hideModal();
+  filterPill.classList.remove('hidden');
+  form.reset();
+});
+
+filterPillButton.addEventListener('click', event => {
+  event.preventDefault();
+  filterPill.classList.add('hidden');
+  tbody.textContent = '';
+  createTableBody(data.activities);
+  tableWrapper.classList.add('height');
+});
