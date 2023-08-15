@@ -6,6 +6,7 @@
 .flex {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .column-full {
@@ -24,6 +25,14 @@
   width: 50%;
 }
 
+.column-1 {
+  flex-basis: 80%;
+}
+
+.column-2 {
+  flex-basis: 20%;
+}
+
 @media screen and (max-width: 844px) {
   .column-two-third,
   .column-one-third {
@@ -33,6 +42,10 @@
   .column-half {
     width: 100%;
   }
+
+  .filter-modal {
+    width: 14rem;
+  }
 }
 
 @media screen and (min-width: 600px) {
@@ -41,6 +54,10 @@
   }
 
   div.height {
-    height: 31rem;
+    height: 35rem;
+  }
+
+  .filter-modal {
+    width: 25rem;
   }
 }
