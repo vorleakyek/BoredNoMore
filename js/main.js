@@ -119,6 +119,10 @@ searchForm.addEventListener('input', event => {
 
 });
 
+searchForm.addEventListener('submit', event => {
+  event.preventDefault();
+});
+
 function matchedResult() {
   const result = data.activities.filter(element => matchedCriteria(element));
   return result;
@@ -150,6 +154,3 @@ function noMatchFound() {
   td.classList.add('not-found-padding');
   activityHeader.classList.remove('activity-column-padding');
 }
-
-// *********************** IMPLEMENTING FEATURE 3 - Filter ******************** //
-// const filterIcon = document.querySelector('.fa-filter');
