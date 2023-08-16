@@ -105,9 +105,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // *********************** IMPLEMENTING FEATURE 2 - SEARCH ******************** //
 const searchInput = document.querySelector('#search-input');
-let searchValue = null;
-
 const searchForm = document.querySelector('#search-form');
+let searchValue = null;
 
 searchForm.addEventListener('input', event => {
   event.preventDefault();
@@ -176,11 +175,6 @@ cancel.addEventListener('click', event => {
   hideModal();
 });
 
-function hideModal() {
-  overlay.classList.add('hidden');
-  filterModel.classList.add('hidden');
-}
-
 apply.addEventListener('click', event => {
   event.preventDefault();
   const checked = document.querySelectorAll('input[name="filter"]:checked');
@@ -207,4 +201,53 @@ filterPillButton.addEventListener('click', event => {
   tbody.textContent = '';
   createTableBody(data.activities);
   tableWrapper.classList.add('height');
+});
+
+function hideModal() {
+  overlay.classList.add('hidden');
+  filterModel.classList.add('hidden');
+}
+
+// ********************* IMPLEMENTING FEATURE 3 - Random Generator ******************** //
+const generateButton = document.querySelector('.btn-general');
+
+generateButton.addEventListener('click', event => {
+  fetch('http://www.boredapi.com/api/activity/')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`server status code: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      const { activity, type, participants, price, accessibility, link } = data;
+      const activityText = document.querySelector('.activity-text');
+      const typeText = document.querySelector('.type-text');
+      const participantText = document.querySelector('.participant-text');
+      const accessibilityText = document.querySelector('.accessibility-text');
+      const priceText = document.querySelector('.price-text');
+      const linkSpan = document.querySelector('.link-span');
+
+      activityText.textContent = activity;
+      typeText.textContent = type;
+      participantText.textContent = participants;
+      accessibilityText.textContent = accessibility;
+      priceText.textContent = price;
+
+      if (link === '') {
+        linkSpan.textContent = 'Not available';
+      } else {
+        linkSpan.textContent = '';
+        const a = document.createElement('a');
+        linkSpan.append(a);
+        a.className = 'link-text';
+        const linkText = document.querySelector('.link-text');
+        linkText.setAttribute('href', link);
+        linkText.textContent = link;
+        linkText.setAttribute('target', '_blank');
+      }
+    })
+    .catch(error => {
+      console.error('Error', error);
+    });
 });

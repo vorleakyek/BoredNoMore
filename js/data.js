@@ -5,7 +5,6 @@ let data = {
   activities: []
 };
 
-// localStorage.clear();
 const previousData = localStorage.getItem('activities');
 
 window.addEventListener('load', event => {
