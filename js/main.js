@@ -208,7 +208,7 @@ function hideModal() {
   filterModel.classList.add('hidden');
 }
 
-// ********************* IMPLEMENTING FEATURE 3 - Random Generator ******************** //
+// ********************* IMPLEMENTING FEATURE 4 - Random Generator ******************** //
 const generateButton = document.querySelector('.btn-general');
 
 generateButton.addEventListener('click', event => {
