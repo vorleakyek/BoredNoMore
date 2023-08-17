@@ -267,13 +267,17 @@ sendButton.addEventListener('click', event => {
     errMsg.classList.remove('hidden');
   } else {
     feedbackContainer.classList.add('hidden');
-    const div = document.createElement('div');
-    div.className = 'reply';
-    feedbackDiv.append(div);
-    div.textContent = 'Thank you for your feedback!';
-    const p = document.createElement('p');
-    feedbackDiv.append(p);
-    p.textContent = `Your feedback: ${feedback}`;
+    const divWrapper = document.createElement('div');
+    divWrapper.className = 'reply-wrapper';
+    feedbackDiv.append(divWrapper);
+    const p2 = document.createElement('p');
+    p2.className = 'reply';
+    divWrapper.append(p2);
+    p2.textContent = 'Thank you for your feedback!';
+    const p3 = document.createElement('p');
+    divWrapper.append(p3);
+    p3.className = 'reply';
+    p3.textContent = `Your feedback: ${feedback}`;
   }
 });
 

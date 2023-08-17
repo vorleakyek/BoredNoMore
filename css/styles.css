@@ -3,6 +3,7 @@ body {
   color: #0e5858;
   background-color: #fdf5e6;
   position: relative;
+  height: 100vh;
 }
 
 p {
@@ -293,11 +294,8 @@ div.apply button:focus {
   width: 95%;
   margin: 0.3rem auto;
   background-color: #f0f0f0;
-  border: none;
-
-  /* padding: 1rem 0.6rem 5rem; */
-
-  /* padding: 1.25rem 0.6rem;
+  padding: 0.6rem;
+  border: 0.07rem solid #0e5858;
 }
 
 .feedback-wrapper {
@@ -305,5 +303,19 @@ div.apply button:focus {
   justify-content: start;
   background-color: #baf4ff;
 }
-*/
+
+.error-message {
+  padding-left: 1rem;
+  color: rgb(184, 10, 10);
+  font-weight: bold;
+}
+
+.reply {
+  text-align: center;
+  font-weight: bold;
+  padding: 0.1rem 0;
+}
+
+.reply-wrapper {
+  background-color: lightgrey;
 }
