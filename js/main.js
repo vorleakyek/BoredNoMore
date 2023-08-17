@@ -251,3 +251,32 @@ generateButton.addEventListener('click', event => {
       console.error('Error', error);
     });
 });
+
+// ********************* IMPLEMENTING FEATURE 5 - User Feedback ******************** //
+const feedbackInput = document.querySelector('.feedback-input');
+const sendButton = document.querySelector('#btn-send');
+const feedbackContainer = document.querySelector('.feedback-container');
+const feedbackDiv = document.querySelector('.feedback');
+const errMsg = document.querySelector('.error-message');
+
+sendButton.addEventListener('click', event => {
+  event.preventDefault();
+  const feedback = feedbackInput.value;
+
+  if (feedback.trim() === '') {
+    errMsg.classList.remove('hidden');
+  } else {
+    feedbackContainer.classList.add('hidden');
+    const div = document.createElement('div');
+    div.className = 'reply';
+    feedbackDiv.append(div);
+    div.textContent = 'Thank you for your feedback!';
+    const p = document.createElement('p');
+    feedbackDiv.append(p);
+    p.textContent = `Your feedback: ${feedback}`;
+  }
+});
+
+feedbackInput.addEventListener('input', event => {
+  errMsg.classList.add('hidden');
+});

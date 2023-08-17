@@ -200,31 +200,6 @@ i {
   cursor: pointer;
 }
 
-/* Feedback */
-.feedback {
-  background-color: #ddf9fe;
-  padding: 0.3rem;
-}
-
-.feedback-input {
-  display: flex;
-  justify-content: center;
-  font-size: 0.75rem;
-  width: 95%;
-  margin: 0.3rem auto;
-  background-color: #f0f0f0;
-  border: none;
-  padding: 1.25rem 0.6rem;
-  height: 7rem;
-  vertical-align: top;
-}
-
-.feedback-wrapper {
-  display: flex;
-  justify-content: start;
-  background-color: #baf4ff;
-}
-
 /* Filter Modal and filter pill */
 .overlay {
   position: absolute;
@@ -303,4 +278,32 @@ div.apply button:focus {
 .fa-x {
   font-size: 0.75rem;
   color: #0e5858;
+}
+
+/* Feedback */
+.feedback {
+  background-color: #ddf9fe;
+  padding: 0.3rem;
+}
+
+.feedback-input {
+  display: flex;
+  justify-content: center;
+  font-size: 0.75rem;
+  width: 95%;
+  margin: 0.3rem auto;
+  background-color: #f0f0f0;
+  border: none;
+
+  /* padding: 1rem 0.6rem 5rem; */
+
+  /* padding: 1.25rem 0.6rem;
+}
+
+.feedback-wrapper {
+  display: flex;
+  justify-content: start;
+  background-color: #baf4ff;
+}
+*/
 }

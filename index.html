@@ -89,13 +89,15 @@
     </div>
     <div class="feedback-wrapper">
       <div class="feedback column-two-third">
-        <h3 class="title">Feedback</h3>
-        <form action="">
-          <label for="feedback"></label>
-          <input class="feedback-input" type="text" id="feedback"
-            placeholder="Your feedback is valuable! Share your activity suggestions!">
-        </form>
-        <button class="btn-general">Send</button>
+        <div class="feedback-container">
+          <form action="">
+            <label class="title" for="feedback"></label>
+            <textarea class="feedback-input" id="feedback" placeholder="Your feedback is valuable! Share your activity suggestions!"
+              rows="7" name="feedback"></textarea>
+            <p class="error-message hidden">Please provide a feedback.</p>
+            <button id="btn-send" class="btn-general">Send</button>
+          </form>
+        </div>
       </div>
     </div>
   </main>
@@ -159,5 +161,4 @@
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
-
 </html>
