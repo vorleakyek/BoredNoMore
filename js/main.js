@@ -208,7 +208,7 @@ function hideModal() {
   filterModel.classList.add('hidden');
 }
 
-// ********************* IMPLEMENTING FEATURE 3 - Random Generator ******************** //
+// ********************* IMPLEMENTING FEATURE 4 - Random Generator ******************** //
 const generateButton = document.querySelector('.btn-general');
 
 generateButton.addEventListener('click', event => {
@@ -250,4 +250,37 @@ generateButton.addEventListener('click', event => {
     .catch(error => {
       console.error('Error', error);
     });
+});
+
+// ********************* IMPLEMENTING FEATURE 5 - User Feedback ******************** //
+const feedbackInput = document.querySelector('.feedback-input');
+const sendButton = document.querySelector('#btn-send');
+const feedbackContainer = document.querySelector('.feedback-container');
+const feedbackDiv = document.querySelector('.feedback');
+const errMsg = document.querySelector('.error-message');
+
+sendButton.addEventListener('click', event => {
+  event.preventDefault();
+  const feedback = feedbackInput.value;
+
+  if (feedback.trim() === '') {
+    errMsg.classList.remove('hidden');
+  } else {
+    feedbackContainer.classList.add('hidden');
+    const divWrapper = document.createElement('div');
+    divWrapper.className = 'reply-wrapper';
+    feedbackDiv.append(divWrapper);
+    const p2 = document.createElement('p');
+    p2.className = 'reply';
+    divWrapper.append(p2);
+    p2.textContent = 'Thank you for your feedback!';
+    const p3 = document.createElement('p');
+    divWrapper.append(p3);
+    p3.className = 'reply';
+    p3.textContent = `Your feedback: ${feedback}`;
+  }
+});
+
+feedbackInput.addEventListener('input', event => {
+  errMsg.classList.add('hidden');
 });
