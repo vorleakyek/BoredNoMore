@@ -226,8 +226,6 @@ const partiDiv = document.querySelector('.participant-input-wrapper');
 const accessDiv = document.querySelector('.accessibility-input-wrapper');
 const priceDiv = document.querySelector('.price-input-wrapper');
 
-/// Try to find an more optimal way for this piece of code
-
 optionForm.addEventListener('click', event => {
   if (event.target.value === 'type') {
     optDiv.classList.remove('hidden');
@@ -324,49 +322,6 @@ function generate(link) {
       console.error('Error', error);
     });
 }
-
-// **************** Keep this code as it is for now *************************//
-
-// generateButton.addEventListener('click', event => {
-//   fetch(link)
-//     .then(response => {
-//       if (!response.ok) {
-//         throw new Error(`server status code: ${response.status}`);
-//       }
-//       return response.json();
-//     })
-//     .then(data => {
-//       const { activity, type, participants, price, accessibility, link } = data;
-//       const activityText = document.querySelector('.activity-text');
-//       const typeText = document.querySelector('.type-text');
-//       const participantText = document.querySelector('.participant-text');
-//       const accessibilityText = document.querySelector('.accessibility-text');
-//       const priceText = document.querySelector('.price-text');
-//       const linkSpan = document.querySelector('.link-span');
-
-//       activityText.textContent = activity;
-//       typeText.textContent = type;
-//       participantText.textContent = participants;
-//       accessibilityText.textContent = accessibility;
-//       priceText.textContent = price;
-
-//       if (link === '') {
-//         linkSpan.textContent = 'Not available';
-//       } else {
-//         linkSpan.textContent = '';
-//         const a = document.createElement('a');
-//         linkSpan.append(a);
-//         a.className = 'link-text';
-//         const linkText = document.querySelector('.link-text');
-//         linkText.setAttribute('href', link);
-//         linkText.textContent = link;
-//         linkText.setAttribute('target', '_blank');
-//       }
-//     })
-//     .catch(error => {
-//       console.error('Error', error);
-//     });
-// });
 
 // ********************* IMPLEMENTING FEATURE 5 - User Feedback ******************** //
 const feedbackInput = document.querySelector('.feedback-input');
