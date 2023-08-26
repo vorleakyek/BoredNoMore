@@ -3,7 +3,6 @@ body {
   color: #0e5858;
   background-color: #fdf5e6;
   position: relative;
-  height: 100vh;
 }
 
 p {
@@ -138,6 +137,19 @@ td,
   padding: 0.6rem;
 }
 
+.option-wrapper {
+  margin: 0 0.8rem;
+  padding: 0.5rem;
+  background-color: #ddf9fe;
+}
+
+.price-input-wrapper,
+.accessibility-input-wrapper,
+.participant-input-wrapper {
+  margin-left: 1.25rem;
+  padding: 0.125rem 0;
+}
+
 /* Search and filter */
 .search-filter-wrapper {
   align-items: baseline;
@@ -224,7 +236,7 @@ i {
   flex-basis: 100%;
 }
 
-label {
+div.options label {
   display: flex;
 }
 
@@ -317,5 +329,5 @@ div.apply button:focus {
 }
 
 .reply-wrapper {
-  background-color: lightgrey;
+  background-color: #fdf5e6;
 }
