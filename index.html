@@ -75,6 +75,88 @@
       <div class="random-generator column-one-third">
         <h2 class="title">Random Generator</h2>
         <p class="center">Generate a random activity</p>
+        <div class="option-wrapper">
+          <form action="" id="option-form" class="option-form">
+            <div>
+              <input type="radio" id="type" name="gen-opt" value="type">
+              <label for="type">Type</label>
+              <div class="options flex hidden">
+                <div class="column-half">
+                  <label for="education">
+                    <input type="checkbox" name="filter" value="education" id="education">
+                    Education
+                  </label>
+                  <label for="recreational">
+                    <input type="checkbox" name="filter" value="recreational" id="recreational">
+                    Recreational
+                  </label>
+                  <label for="social">
+                    <input type="checkbox" name="filter" value="social" id="social">
+                    Social
+                  </label>
+                  <label for="diy">
+                    <input type="checkbox" name="filter" value="diy" id="diy">
+                    DIY
+                  </label>
+                  <label for="busywork">
+                    <input type="checkbox" name="filter" value="busywork" id="busywork">
+                    Busywork
+                  </label>
+                </div>
+                <div class="column-half">
+                  <label for="charity">
+                    <input type="checkbox" name="filter" value="charity" id="charity">
+                    Charity
+                  </label>
+                  <label for="cooking">
+                    <input type="checkbox" name="filter" value="cooking" id="cooking">
+                    Cooking
+                  </label>
+                  <label for="relaxation">
+                    <input type="checkbox" name="filter" value="relaxation" id="relaxation">
+                    Relaxation
+                  </label>
+                  <label for="music">
+                    <input type="checkbox" name="filter" value="music" id="music">
+                    Music
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <input type="radio" id="participant" name="gen-opt" value="participant">
+              <label for="participant">Participant</label>
+              <div class="participant-input-wrapper hidden">
+                <label for="participant-number">Enter a number: </label>
+                <input id="participant-number" type="number" min="1" max="5">
+              </div>
+            </div>
+
+            <div>
+              <input type="radio" id="accessibility" name="gen-opt" value="accessibility">
+              <label for="accessibility">Accessibility</label>
+              <div class="accessibility-input-wrapper hidden">
+                <label for="access-min">Min: </label>
+                <input id="access-min" type="number" min="0" max="1">
+                <label for="access-max">and </label>
+                <input id="access-max" type="number" min="0" max="1">
+              </div>
+            </div>
+
+            <div>
+              <input type="radio" id="price" name="gen-opt" value="price">
+              <label for="price">Price</label>
+              <div class="price-input-wrapper hidden">
+                <label for="price-min" >Min: </label>
+                <input id="price-min" type="number" min="0" max="1">
+                <label for="price-max">Max: </label>
+                <input id="price-max" type="number" min="0" max="1">
+              </div>
+            </div>
+
+          </form>
+        </div>
         <button class="btn-general">Generate</button>
         <h3 class="title">Random Activity</h3>
         <div class="random-activity-output">
@@ -91,7 +173,8 @@
       <div class="feedback column-two-third">
         <div class="feedback-container">
           <form action="">
-            <label class="title" for="feedback"></label>
+            <h2 class="title">Feedback</h2>
+            <label class="title hidden" for="feedback"></label>
             <textarea class="feedback-input" id="feedback" placeholder="Your feedback is valuable! Share your activity suggestions!"
               rows="7" name="feedback"></textarea>
             <p class="error-message hidden">Please provide a feedback.</p>
@@ -107,42 +190,42 @@
         <h3 class="title">Filter by type</h3>
         <div class="options flex">
           <div class="column-half">
-            <label for="filter">
-              <input type="checkbox" name="filter" value="education">
+            <label for="education-1">
+              <input type="checkbox" name="filter" value="education" id="education-1">
               Education
             </label>
-            <label for="filter">
-              <input type="checkbox" name="filter" value="recreational">
+            <label for="recreational-1">
+              <input type="checkbox" name="filter" value="recreational" id="recreational-1">
               Recreational
             </label>
-            <label for="filter">
-              <input type="checkbox" name="filter" value="social">
+            <label for="social-1">
+              <input type="checkbox" name="filter" value="social" id="social-1">
               Social
             </label>
-            <label for="filter">
-              <input type="checkbox" name="filter" value="diy">
+            <label for="diy-1">
+              <input type="checkbox" name="filter" value="diy" id="diy-1">
               DIY
             </label>
-            <label for="filter">
-              <input type="checkbox" name="filter" value="busywork">
+            <label for="busywork-1">
+              <input type="checkbox" name="filter" value="busywork" id="busywork-1">
               Busywork
             </label>
           </div>
           <div class="column-half">
-            <label for="filter">
-              <input type="checkbox" name="filter" value="charity">
+            <label for="charity-1">
+              <input type="checkbox" name="filter" value="charity" id="charity-1">
               Charity
             </label>
-            <label for="filter">
-              <input type="checkbox" name="filter" value="cooking">
+            <label for="cooking-1">
+              <input type="checkbox" name="filter" value="cooking" id="cooking-1">
               Cooking
             </label>
-            <label for="filter">
-              <input type="checkbox" name="filter" value="relaxation">
+            <label for="relaxation-1">
+              <input type="checkbox" name="filter" value="relaxation" id="relaxation-1">
               Relaxation
             </label>
-            <label for="filter">
-              <input type="checkbox" name="filter" value="music">
+            <label for="music-1">
+              <input type="checkbox" name="filter" value="music" id="music-1">
               Music
             </label>
           </div>

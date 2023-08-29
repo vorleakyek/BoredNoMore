@@ -6,7 +6,7 @@ const tableWrapper = document.querySelector('.table-wrapper');
 // ***************** IMPLEMENTING FEATURE 1 - Fetch data and show table **********//
 async function getActivityObj(type) {
   try {
-    const response = await fetch(`http://www.boredapi.com/api/activity?type=${type}`);
+    const response = await fetch(`https://www.boredapi.com/api/activity?type=${type}`);
 
     if (!response.ok) {
       throw new Error(`server status code: ${response.status}`);
@@ -210,9 +210,80 @@ function hideModal() {
 
 // ********************* IMPLEMENTING FEATURE 4 - Random Generator ******************** //
 const generateButton = document.querySelector('.btn-general');
+let link = 'https://www.boredapi.com/api/activity/';
+
+const optionForm = document.querySelector('#option-form');
+const radioButtons = optionForm.querySelectorAll('input[type="radio"]');
+const checkBoxes = optionForm.querySelectorAll('input[type="checkbox"]');
+const participantNum = document.querySelector('#participant-number');
+const accessMin = document.querySelector('#access-min');
+const accessMax = document.querySelector('#access-max');
+const priceMin = document.querySelector('#price-min');
+const priceMax = document.querySelector('#price-max');
+
+const optDiv = document.querySelector('.options');
+const partiDiv = document.querySelector('.participant-input-wrapper');
+const accessDiv = document.querySelector('.accessibility-input-wrapper');
+const priceDiv = document.querySelector('.price-input-wrapper');
+
+optionForm.addEventListener('click', event => {
+  if (event.target.value === 'type') {
+    optDiv.classList.remove('hidden');
+    partiDiv.classList.add('hidden');
+    accessDiv.classList.add('hidden');
+    priceDiv.classList.add('hidden');
+  } else if (event.target.value === 'participant') {
+    optDiv.classList.add('hidden');
+    partiDiv.classList.remove('hidden');
+    accessDiv.classList.add('hidden');
+    priceDiv.classList.add('hidden');
+  } else if (event.target.value === 'accessibility') {
+    optDiv.classList.add('hidden');
+    partiDiv.classList.add('hidden');
+    accessDiv.classList.remove('hidden');
+    priceDiv.classList.add('hidden');
+  } else if (event.target.value === 'price') {
+    optDiv.classList.add('hidden');
+    partiDiv.classList.add('hidden');
+    accessDiv.classList.add('hidden');
+    priceDiv.classList.remove('hidden');
+  }
+});
 
 generateButton.addEventListener('click', event => {
-  fetch('http://www.boredapi.com/api/activity/')
+  event.preventDefault();
+
+  for (const radio of radioButtons) {
+    if (radio.checked && radio.value === 'type') {
+      for (const checkbox of checkBoxes) {
+        if (checkbox.checked) {
+          link = `https://www.boredapi.com/api/activity?type=${checkbox.value}`;
+          generate(link);
+        }
+      }
+    } else if (radio.checked && radio.value === 'participant') {
+      link = `https://www.boredapi.com/api/activity?participants=${participantNum.value}`;
+      generate(link);
+    } else if (radio.checked && radio.value === 'accessibility') {
+      if (accessMin.value !== accessMax.value) {
+        link = `https://www.boredapi.com/api/activity?minaccessibility=${accessMin.value}&maxaccessibility=${accessMax.value}`;
+      } else {
+        link = `https://www.boredapi.com/api/activity?accessibility=${accessMin.value}`;
+      }
+      generate(link);
+    } else if (radio.checked && radio.value === 'price') {
+      if (priceMin.value !== priceMax.value) {
+        link = `https://www.boredapi.com/api/activity?minprice=${priceMin.value}&maxprice=${priceMax.value}`;
+      } else {
+        link = `https://www.boredapi.com/api/activity?price=${priceMin.value}`;
+      }
+      generate(link);
+    }
+  }
+});
+
+function generate(link) {
+  fetch(link)
     .then(response => {
       if (!response.ok) {
         throw new Error(`server status code: ${response.status}`);
@@ -250,7 +321,7 @@ generateButton.addEventListener('click', event => {
     .catch(error => {
       console.error('Error', error);
     });
-});
+}
 
 // ********************* IMPLEMENTING FEATURE 5 - User Feedback ******************** //
 const feedbackInput = document.querySelector('.feedback-input');
