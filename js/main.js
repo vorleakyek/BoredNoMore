@@ -31,13 +31,13 @@ if (data.activities.length === 0) {
 
 // Need to wait for a few seconds for all the data from API to be fully retrieved
 setTimeout(() => {
-  createTableBody(data.activities);
+  createTableBody(data.activities, tbody);
 }, 1000);
 
-function createTableBody(array) {
+function createTableBody(array, tbody) {
   for (let i = 0; i < array.length; i++) {
     activityHeader.classList.add('activity-column-padding');
-    const { activity, type, participants, price, accessibility, link } = array[i];
+    const { activity, type, participants, price, accessibility, link, key } = array[i];
     const tr = document.createElement('tr');
     tr.classList.add('border');
     tbody.append(tr);
@@ -51,11 +51,25 @@ function createTableBody(array) {
       { textContentValue: price, classNameValue: 'price-cell' }
     ];
 
+    favCell(tr, 'fav-cell', key);
     for (const cellData of rowData) {
       displayEachCell(tr, cellData.textContentValue, cellData.classNameValue);
     }
     linkCell(tr, link, 'link-cell');
   }
+}
+
+function favCell(tr, className, key) {
+  const td = document.createElement('td');
+  const btn = document.createElement('button');
+  btn.className = 'star-btn';
+  const i = document.createElement('i');
+  i.className = 'fa-regular fa-star not-fav';
+  i.setAttribute('id', `${key}`);
+  td.className = className;
+  tr.append(td);
+  td.append(btn);
+  btn.append(i);
 }
 
 function displayEachCell(tr, text, className) {
@@ -114,7 +128,7 @@ searchForm.addEventListener('input', event => {
   searchValue = searchInput.value.toLowerCase();
   const result = matchedResult();
   tbody.textContent = '';
-  result.length === 0 ? noMatchFound() : createTableBody(result);
+  result.length === 0 ? noMatchFound(tbody, 'No match found!') : createTableBody(result);
   result.length <= 16 ? tableWrapper.classList.remove('height') : tableWrapper.classList.add('height');
 });
 
@@ -142,14 +156,14 @@ function matchedCriteria(element) {
   return matchedType || matchedActivity || matchedParticipants || matchedAccessibility || matchedPrice;
 }
 
-function noMatchFound() {
+function noMatchFound(tbody, displayText) {
   const tr = document.createElement('tr');
   tr.classList.add('not-found');
   tbody.append(tr);
   const td = document.createElement('td');
   tr.append(td);
-  td.setAttribute('colspan', '7');
-  td.textContent = 'No match found!';
+  td.setAttribute('colspan', '8');
+  td.textContent = displayText;
   td.classList.add('not-found-padding');
   activityHeader.classList.remove('activity-column-padding');
 }
@@ -355,3 +369,59 @@ sendButton.addEventListener('click', event => {
 feedbackInput.addEventListener('input', event => {
   errMsg.classList.add('hidden');
 });
+
+// ********************* IMPLEMENTING FEATURE 6 - Adding Favorite ******************** //
+const favPage = document.querySelector('[data-view="favorite-page"]');
+const homePage = document.querySelector('[data-view="home-page"]');
+const favLink = document.querySelector('.fav-link');
+const backHomeButton = document.querySelector('#home-page-button');
+const favtBody = document.querySelector('.fav-table-body');
+
+// How to handle page refresh in this case????
+// Issue with multiple empty state after clicking back button and go back to fav page
+// Issue with repush of the same items
+favLink.addEventListener('click', event => {
+  event.preventDefault();
+  viewSwap('favorite-page');
+});
+
+backHomeButton.addEventListener('click', event => { viewSwap('home-page'); });
+
+tbody.addEventListener('click', handleFavActivity);
+
+function handleFavActivity(event) {
+  if (event.target.classList.contains('fa-star')) {
+    event.target.classList.add('fa-solid');
+    event.target.style.color = 'gold';
+    const favKey = event.target.id;
+
+    fetch(`http://www.boredapi.com/api/activity?key=${favKey}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('server status code: $response.status');
+        }
+        return response.json();
+      })
+      .then(dataResult => {
+        data.favorites.push(dataResult);
+      });
+  }
+  // else {
+  //   console.log('out');
+  // }
+
+}
+
+function viewSwap(dataView) {
+  if (dataView === 'favorite-page') {
+    favPage.classList.remove('hidden');
+    homePage.classList.add('hidden');
+    data.view = dataView;
+    data.favorites.length === 0 ? noMatchFound(favtBody, 'No favorite activities.') : createTableBody(data.favorites, favtBody);
+
+  } else if (dataView === 'home-page') {
+    favPage.classList.add('hidden');
+    homePage.classList.remove('hidden');
+    data.view = dataView;
+  }
+}

@@ -17,16 +17,19 @@
 <body>
   <div class="overlay hidden"></div>
   <header>
-    <div class="container bg-1 flex">
-      <div class="column-full">
+    <div class="container bg-1 flex space-between">
+      <div class="column-half">
         <h1 class="heading">BoreNoMore</h1>
+      </div>
+      <div class="column-half">
+        <h2 class="heading heading-2"><a class="fav-link heading heading-2" href="#">Favorite</a></h2>
       </div>
     </div>
   </header>
   <main class="container">
-    <div class="flex">
+    <div class="flex" data-view="home-page" id="home-page">
       <div class="top-activity bg-2 column-two-third">
-        <h2 class="title">Top Activities</h2>
+        <h2 class="title">Activities</h2>
         <div class="search-filter-wrapper flex">
           <div class="column-1">
             <form class="search-area" id="search-form" autocomplete="off">
@@ -51,6 +54,7 @@
           <table class="activity-table">
             <thead class="table-header">
               <tr>
+                <th class="favorite">Favorite</th>
                 <th class="num-column">#</th>
                 <th class="activity-column activity-column-padding">Activity</th>
                 <th class="type-column">Type</th>
@@ -148,7 +152,7 @@
               <input type="radio" id="price" name="gen-opt" value="price">
               <label for="price">Price</label>
               <div class="price-input-wrapper hidden">
-                <label for="price-min" >Min: </label>
+                <label for="price-min">Min: </label>
                 <input id="price-min" type="number" min="0" max="1">
                 <label for="price-max">Max: </label>
                 <input id="price-max" type="number" min="0" max="1">
@@ -165,83 +169,145 @@
           <p><span class="bold">Participant: </span><span class="participant-text">1</span></p>
           <p><span class="bold">Accessibility: </span><span class="accessibility-text">0.25</span></p>
           <p><span class="bold">Price: </span><span class="price-text">0.1</p>
-          <p><span class="bold">Link: </span><span class="link-span"><a class="link-text" href="https://expressjs.com/" target="_blank"> https://expressjs.com/</a></span></p>
+          <p><span class="bold">Link: </span><span class="link-span"><a class="link-text" href="https://expressjs.com/"
+                target="_blank"> https://expressjs.com/</a></span></p>
         </div>
       </div>
-    </div>
-    <div class="feedback-wrapper">
-      <div class="feedback column-two-third">
-        <div class="feedback-container">
-          <form action="">
-            <h2 class="title">Feedback</h2>
-            <label class="title hidden" for="feedback"></label>
-            <textarea class="feedback-input" id="feedback" placeholder="Your feedback is valuable! Share your activity suggestions!"
-              rows="7" name="feedback"></textarea>
-            <p class="error-message hidden">Please provide a feedback.</p>
-            <button id="btn-send" class="btn-general">Send</button>
+
+      <div class="feedback-wrapper column-full">
+        <div class="feedback column-two-third">
+          <div class="feedback-container">
+            <form action="">
+              <h2 class="title">Feedback</h2>
+              <label class="title hidden" for="feedback"></label>
+              <textarea class="feedback-input" id="feedback"
+                placeholder="Your feedback is valuable! Share your activity suggestions!" rows="7"
+                name="feedback"></textarea>
+              <p class="error-message hidden">Please provide a feedback.</p>
+              <button id="btn-send" class="btn-general">Send</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-modal flex hidden">
+        <div class="modal">
+          <form id="form-filter-modal" action="">
+            <h3 class="title">Filter by type</h3>
+            <div class="options flex">
+              <div class="column-half">
+                <label for="education-1">
+                  <input type="checkbox" name="filter" value="education" id="education-1">
+                  Education
+                </label>
+                <label for="recreational-1">
+                  <input type="checkbox" name="filter" value="recreational" id="recreational-1">
+                  Recreational
+                </label>
+                <label for="social-1">
+                  <input type="checkbox" name="filter" value="social" id="social-1">
+                  Social
+                </label>
+                <label for="diy-1">
+                  <input type="checkbox" name="filter" value="diy" id="diy-1">
+                  DIY
+                </label>
+                <label for="busywork-1">
+                  <input type="checkbox" name="filter" value="busywork" id="busywork-1">
+                  Busywork
+                </label>
+              </div>
+              <div class="column-half">
+                <label for="charity-1">
+                  <input type="checkbox" name="filter" value="charity" id="charity-1">
+                  Charity
+                </label>
+                <label for="cooking-1">
+                  <input type="checkbox" name="filter" value="cooking" id="cooking-1">
+                  Cooking
+                </label>
+                <label for="relaxation-1">
+                  <input type="checkbox" name="filter" value="relaxation" id="relaxation-1">
+                  Relaxation
+                </label>
+                <label for="music-1">
+                  <input type="checkbox" name="filter" value="music" id="music-1">
+                  Music
+                </label>
+              </div>
+            </div>
+            <div class="modal-button flex">
+              <div id="cancel" class="div-btn-modal cancel">
+                <button class="btn-modal">Cancel</button>
+              </div>
+              <div id="apply" class="div-btn-modal apply">
+                <button class="btn-modal">Apply</button>
+              </div>
+            </div>
           </form>
         </div>
       </div>
+
     </div>
+
+    <div id="favorite-page" data-view="favorite-page" class="hidden">
+      <div class="fav-activity bg-2 column-full">
+        <h2 class="title">Favorites Activities</h2>
+        <div class="search-filter-wrapper flex">
+          <div class="column-1">
+            <form class="search-area" id="search-form-fav" autocomplete="off">
+              <label for="search-input" class="inline">Search: </label>
+              <div class="search-box">
+                <input id="search-input-fav" name="search-input" class="search-input" type="text"
+                  placeholder="Search for an activity type ">
+                <i class="fas fa-search"></i>
+              </div>
+            </form>
+          </div>
+          <div class="column-2">
+            <button class="filter">
+              <i class="fa-solid fa-filter"></i>
+            </button>
+          </div>
+        </div>
+        <div class="filter-pill hidden">
+          <button class="filter-pill-button">Clear filter <i class="fa-solid fa-x"></i></button>
+        </div>
+        <div class="table-wrapper height">
+          <table class="activity-table">
+            <thead class="table-header">
+              <tr>
+                <th class="favorite">Favorite</th>
+                <th class="num-column">#</th>
+                <th class="activity-column activity-column-padding">Activity</th>
+                <th class="type-column">Type</th>
+                <th class="participant-column">Part-<br>icipant</th>
+                <th class="accessibility-column">Access-<br>ibility</th>
+                <th class="price-column">Price</th>
+                <th class="link-column">Link</th>
+              </tr>
+            </thead>
+            <tbody class="fav-table-body table-body"></tbody>
+          </table>
+        </div>
+        <div class="flex notes">
+          <p class="column-half">
+            <span class="bold">Accessibility:</span> zero for being the most accessible
+          </p>
+          <p class="column-half">
+            <span class="bold">Price:</span> zero for being free
+          </p>
+        </div>
+      </div>
+      <div>
+        <button id="home-page-button" class="btn-general">Back</button>
+      </div>
+    </div>
+
   </main>
-  <div class="filter-modal flex hidden">
-    <div class="modal">
-      <form id="form-filter-modal" action="">
-        <h3 class="title">Filter by type</h3>
-        <div class="options flex">
-          <div class="column-half">
-            <label for="education-1">
-              <input type="checkbox" name="filter" value="education" id="education-1">
-              Education
-            </label>
-            <label for="recreational-1">
-              <input type="checkbox" name="filter" value="recreational" id="recreational-1">
-              Recreational
-            </label>
-            <label for="social-1">
-              <input type="checkbox" name="filter" value="social" id="social-1">
-              Social
-            </label>
-            <label for="diy-1">
-              <input type="checkbox" name="filter" value="diy" id="diy-1">
-              DIY
-            </label>
-            <label for="busywork-1">
-              <input type="checkbox" name="filter" value="busywork" id="busywork-1">
-              Busywork
-            </label>
-          </div>
-          <div class="column-half">
-            <label for="charity-1">
-              <input type="checkbox" name="filter" value="charity" id="charity-1">
-              Charity
-            </label>
-            <label for="cooking-1">
-              <input type="checkbox" name="filter" value="cooking" id="cooking-1">
-              Cooking
-            </label>
-            <label for="relaxation-1">
-              <input type="checkbox" name="filter" value="relaxation" id="relaxation-1">
-              Relaxation
-            </label>
-            <label for="music-1">
-              <input type="checkbox" name="filter" value="music" id="music-1">
-              Music
-            </label>
-          </div>
-        </div>
-        <div class="modal-button flex">
-          <div id="cancel" class="div-btn-modal cancel">
-            <button class="btn-modal">Cancel</button>
-          </div>
-          <div id="apply" class="div-btn-modal apply">
-            <button class="btn-modal">Apply</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
+
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
+
 </html>

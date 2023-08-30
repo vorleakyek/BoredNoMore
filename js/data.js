@@ -2,7 +2,9 @@
 
 let data = {
   view: 'home-page',
-  activities: []
+  activities: [],
+  favorites: [],
+  nextFavoriteId: null
 };
 
 const previousData = localStorage.getItem('activities');
