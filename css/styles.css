@@ -352,3 +352,8 @@ div.apply button:focus {
   padding: 0;
   cursor: pointer;
 }
+
+.fav-activity .title {
+  margin-top: 0;
+  padding-top: 1rem;
+}

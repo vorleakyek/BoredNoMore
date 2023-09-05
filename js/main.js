@@ -64,8 +64,10 @@ function favCell(tr, className, key) {
   const btn = document.createElement('button');
   btn.className = 'star-btn';
   const i = document.createElement('i');
-  i.className = 'fa-regular fa-star not-fav';
   i.setAttribute('id', `${key}`);
+  const isFavStar = data.favorites.find(obj => obj.key === key);
+  const starIcon = isFavStar ? 'fav-star fa-solid' : 'not-fav';
+  i.className = `fa-regular fa-star ${starIcon}`;
   td.className = className;
   tr.append(td);
   td.append(btn);
@@ -128,8 +130,7 @@ searchForm.addEventListener('input', event => {
   searchValue = searchInput.value.toLowerCase();
   const result = matchedResult();
   tbody.textContent = '';
-  result.length === 0 ? noMatchFound(tbody, 'No match found!') : createTableBody(result);
-  result.length <= 16 ? tableWrapper.classList.remove('height') : tableWrapper.classList.add('height');
+  updateBodyTable(result, tbody, tableWrapper, 'No match found!');
 });
 
 searchForm.addEventListener('submit', event => {
@@ -202,7 +203,7 @@ apply.addEventListener('click', event => {
   const result = data.activities.filter(element =>
     element.type.includes(stringInput) || stringInput.includes(element.type));
   tbody.textContent = '';
-  createTableBody(result);
+  createTableBody(result, tbody);
   result.length <= 16 ? tableWrapper.classList.remove('height') : tableWrapper.classList.add('height');
   hideModal();
   filterPill.classList.remove('hidden');
@@ -376,52 +377,70 @@ const homePage = document.querySelector('[data-view="home-page"]');
 const favLink = document.querySelector('.fav-link');
 const backHomeButton = document.querySelector('#home-page-button');
 const favtBody = document.querySelector('.fav-table-body');
+const favTableWrapper = document.querySelector('.fav-table');
 
-// How to handle page refresh in this case????
-// Issue with multiple empty state after clicking back button and go back to fav page
-// Issue with repush of the same items
+// Set the initial view based on data.view
+viewSwap(data.view);
+
 favLink.addEventListener('click', event => {
-  event.preventDefault();
   viewSwap('favorite-page');
 });
 
-backHomeButton.addEventListener('click', event => { viewSwap('home-page'); });
+backHomeButton.addEventListener('click', event => {
+  viewSwap('home-page');
+  favtBody.textContent = '';
+});
 
 tbody.addEventListener('click', handleFavActivity);
+favtBody.addEventListener('click', handleFavActivity);
 
 function handleFavActivity(event) {
   if (event.target.classList.contains('fa-star')) {
-    event.target.classList.add('fa-solid');
-    event.target.style.color = 'gold';
+    event.target.classList.toggle('fa-solid');
     const favKey = event.target.id;
 
-    fetch(`http://www.boredapi.com/api/activity?key=${favKey}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('server status code: $response.status');
-        }
-        return response.json();
-      })
-      .then(dataResult => {
-        data.favorites.push(dataResult);
-      });
-  }
-  // else {
-  //   console.log('out');
-  // }
+    if (event.target.classList.contains('fa-solid')) {
+      event.target.style.color = 'rgb(240, 199, 96)';
 
+      fetch(`http://www.boredapi.com/api/activity?key=${favKey}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('server status code: $response.status');
+          }
+          return response.json();
+        })
+        .then(dataResult => {
+          data.favorites.push(dataResult);
+          const jsonString = JSON.stringify(data);
+          localStorage.setItem('activities', jsonString);
+        });
+    } else {
+      event.target.style.color = 'gray';
+      const item = data.favorites.find(obj => obj.key === favKey);
+      const indexItem = data.favorites.indexOf(item);
+      data.favorites.splice(indexItem, 1);
+      favtBody.textContent = '';
+      updateBodyTable(data.favorites, favtBody, favTableWrapper, 'No favorite activities.');
+    }
+  }
 }
 
 function viewSwap(dataView) {
   if (dataView === 'favorite-page') {
+    favLink.classList.add('hidden');
     favPage.classList.remove('hidden');
     homePage.classList.add('hidden');
     data.view = dataView;
-    data.favorites.length === 0 ? noMatchFound(favtBody, 'No favorite activities.') : createTableBody(data.favorites, favtBody);
-
+    updateBodyTable(data.favorites, favtBody, favTableWrapper, 'No favorite activities.');
   } else if (dataView === 'home-page') {
+    favLink.classList.remove('hidden');
     favPage.classList.add('hidden');
     homePage.classList.remove('hidden');
     data.view = dataView;
   }
+}
+
+function updateBodyTable(array, tableBody, tableWrapper, text) {
+  array.length === 0 ? noMatchFound(tableBody, text) : createTableBody(array, tableBody);
+  array.length <= 16 ? tableWrapper.classList.remove('height') : tableWrapper.classList.add('height');
 }

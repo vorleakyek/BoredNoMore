@@ -7,15 +7,15 @@ let data = {
   nextFavoriteId: null
 };
 
-const previousData = localStorage.getItem('activities');
+// localStorage.clear();
 
-window.addEventListener('load', event => {
-  setTimeout(() => {
-    const jsonString = JSON.stringify(data);
-    this.localStorage.setItem('activities', jsonString);
-  }, 1000);
-});
+const previousData = localStorage.getItem('activities');
 
 if (previousData !== null) {
   data = JSON.parse(previousData);
 }
+
+window.addEventListener('beforeunload', event => {
+  const jsonString = JSON.stringify(data);
+  localStorage.setItem('activities', jsonString);
+});
