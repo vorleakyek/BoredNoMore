@@ -7,8 +7,6 @@ let data = {
   nextFavoriteId: null
 };
 
-// localStorage.clear();
-
 const previousData = localStorage.getItem('activities');
 
 if (previousData !== null) {

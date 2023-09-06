@@ -1,6 +1,5 @@
 const allTypes = ['education', 'recreational', 'social', 'diy', 'charity', 'cooking', 'relaxation', 'music', 'busywork'];
 const tbody = document.querySelector('tbody.table-body');
-const activityHeader = document.querySelector('.activity-column');
 const tableWrapper = document.querySelector('.table-wrapper');
 
 // ***************** IMPLEMENTING FEATURE 1 - Fetch data and show table **********//
@@ -36,7 +35,6 @@ setTimeout(() => {
 
 function createTableBody(array, tbody) {
   for (let i = 0; i < array.length; i++) {
-    activityHeader.classList.add('activity-column-padding');
     const { activity, type, participants, price, accessibility, link, key } = array[i];
     const tr = document.createElement('tr');
     tr.classList.add('border');
@@ -126,7 +124,6 @@ let searchValue = null;
 
 searchForm.addEventListener('input', event => {
   event.preventDefault();
-  activityHeader.classList.add('activity-column-padding');
   searchValue = searchInput.value.toLowerCase();
   const result = matchedResult();
   tbody.textContent = '';
@@ -166,7 +163,6 @@ function noMatchFound(tbody, displayText) {
   td.setAttribute('colspan', '8');
   td.textContent = displayText;
   td.classList.add('not-found-padding');
-  activityHeader.classList.remove('activity-column-padding');
 }
 
 // *********************** IMPLEMENTING FEATURE 3 - Filter ******************** //
@@ -214,7 +210,7 @@ filterPillButton.addEventListener('click', event => {
   event.preventDefault();
   filterPill.classList.add('hidden');
   tbody.textContent = '';
-  createTableBody(data.activities);
+  createTableBody(data.activities, tbody);
   tableWrapper.classList.add('height');
 });
 
@@ -419,7 +415,6 @@ function handleFavActivity(event) {
       const item = data.favorites.find(obj => obj.key === favKey);
       const indexItem = data.favorites.indexOf(item);
       data.favorites.splice(indexItem, 1);
-      favtBody.textContent = '';
       updateBodyTable(data.favorites, favtBody, favTableWrapper, 'No favorite activities.');
     }
   }
@@ -437,10 +432,12 @@ function viewSwap(dataView) {
     favPage.classList.add('hidden');
     homePage.classList.remove('hidden');
     data.view = dataView;
+    updateBodyTable(data.activities, tbody, tableWrapper, null);
   }
 }
 
 function updateBodyTable(array, tableBody, tableWrapper, text) {
+  tableBody.textContent = '';
   array.length === 0 ? noMatchFound(tableBody, text) : createTableBody(array, tableBody);
   array.length <= 16 ? tableWrapper.classList.remove('height') : tableWrapper.classList.add('height');
 }
