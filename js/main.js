@@ -1,6 +1,5 @@
 const allTypes = ['education', 'recreational', 'social', 'diy', 'charity', 'cooking', 'relaxation', 'music', 'busywork'];
 const tbody = document.querySelector('tbody.table-body');
-const activityHeader = document.querySelector('.activity-column');
 const tableWrapper = document.querySelector('.table-wrapper');
 
 // ***************** IMPLEMENTING FEATURE 1 - Fetch data and show table **********//
@@ -31,13 +30,12 @@ if (data.activities.length === 0) {
 
 // Need to wait for a few seconds for all the data from API to be fully retrieved
 setTimeout(() => {
-  createTableBody(data.activities);
+  createTableBody(data.activities, tbody);
 }, 1000);
 
-function createTableBody(array) {
+function createTableBody(array, tbody) {
   for (let i = 0; i < array.length; i++) {
-    activityHeader.classList.add('activity-column-padding');
-    const { activity, type, participants, price, accessibility, link } = array[i];
+    const { activity, type, participants, price, accessibility, link, key } = array[i];
     const tr = document.createElement('tr');
     tr.classList.add('border');
     tbody.append(tr);
@@ -51,11 +49,27 @@ function createTableBody(array) {
       { textContentValue: price, classNameValue: 'price-cell' }
     ];
 
+    favCell(tr, 'fav-cell', key);
     for (const cellData of rowData) {
       displayEachCell(tr, cellData.textContentValue, cellData.classNameValue);
     }
     linkCell(tr, link, 'link-cell');
   }
+}
+
+function favCell(tr, className, key) {
+  const td = document.createElement('td');
+  const btn = document.createElement('button');
+  btn.className = 'star-btn';
+  const i = document.createElement('i');
+  i.setAttribute('id', `${key}`);
+  const isFavStar = data.favorites.find(obj => obj.key === key);
+  const starIcon = isFavStar ? 'fav-star fa-solid' : 'not-fav';
+  i.className = `fa-regular fa-star ${starIcon}`;
+  td.className = className;
+  tr.append(td);
+  td.append(btn);
+  btn.append(i);
 }
 
 function displayEachCell(tr, text, className) {
@@ -110,12 +124,10 @@ let searchValue = null;
 
 searchForm.addEventListener('input', event => {
   event.preventDefault();
-  activityHeader.classList.add('activity-column-padding');
   searchValue = searchInput.value.toLowerCase();
   const result = matchedResult();
   tbody.textContent = '';
-  result.length === 0 ? noMatchFound() : createTableBody(result);
-  result.length <= 16 ? tableWrapper.classList.remove('height') : tableWrapper.classList.add('height');
+  updateBodyTable(result, tbody, tableWrapper, 'No match found!');
 });
 
 searchForm.addEventListener('submit', event => {
@@ -142,16 +154,15 @@ function matchedCriteria(element) {
   return matchedType || matchedActivity || matchedParticipants || matchedAccessibility || matchedPrice;
 }
 
-function noMatchFound() {
+function noMatchFound(tbody, displayText) {
   const tr = document.createElement('tr');
   tr.classList.add('not-found');
   tbody.append(tr);
   const td = document.createElement('td');
   tr.append(td);
-  td.setAttribute('colspan', '7');
-  td.textContent = 'No match found!';
+  td.setAttribute('colspan', '8');
+  td.textContent = displayText;
   td.classList.add('not-found-padding');
-  activityHeader.classList.remove('activity-column-padding');
 }
 
 // *********************** IMPLEMENTING FEATURE 3 - Filter ******************** //
@@ -188,7 +199,7 @@ apply.addEventListener('click', event => {
   const result = data.activities.filter(element =>
     element.type.includes(stringInput) || stringInput.includes(element.type));
   tbody.textContent = '';
-  createTableBody(result);
+  createTableBody(result, tbody);
   result.length <= 16 ? tableWrapper.classList.remove('height') : tableWrapper.classList.add('height');
   hideModal();
   filterPill.classList.remove('hidden');
@@ -199,7 +210,7 @@ filterPillButton.addEventListener('click', event => {
   event.preventDefault();
   filterPill.classList.add('hidden');
   tbody.textContent = '';
-  createTableBody(data.activities);
+  createTableBody(data.activities, tbody);
   tableWrapper.classList.add('height');
 });
 
@@ -355,3 +366,78 @@ sendButton.addEventListener('click', event => {
 feedbackInput.addEventListener('input', event => {
   errMsg.classList.add('hidden');
 });
+
+// ********************* IMPLEMENTING FEATURE 6 - Adding Favorite ******************** //
+const favPage = document.querySelector('[data-view="favorite-page"]');
+const homePage = document.querySelector('[data-view="home-page"]');
+const favLink = document.querySelector('.fav-link');
+const backHomeButton = document.querySelector('#home-page-button');
+const favtBody = document.querySelector('.fav-table-body');
+const favTableWrapper = document.querySelector('.fav-table');
+
+// Set the initial view based on data.view
+viewSwap(data.view);
+
+favLink.addEventListener('click', event => {
+  viewSwap('favorite-page');
+});
+
+backHomeButton.addEventListener('click', event => {
+  viewSwap('home-page');
+  favtBody.textContent = '';
+});
+
+tbody.addEventListener('click', handleFavActivity);
+favtBody.addEventListener('click', handleFavActivity);
+
+function handleFavActivity(event) {
+  if (event.target.classList.contains('fa-star')) {
+    event.target.classList.toggle('fa-solid');
+    const favKey = event.target.id;
+
+    if (event.target.classList.contains('fa-solid')) {
+      event.target.style.color = 'rgb(240, 199, 96)';
+
+      fetch(`http://www.boredapi.com/api/activity?key=${favKey}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('server status code: $response.status');
+          }
+          return response.json();
+        })
+        .then(dataResult => {
+          data.favorites.push(dataResult);
+          const jsonString = JSON.stringify(data);
+          localStorage.setItem('activities', jsonString);
+        });
+    } else {
+      event.target.style.color = 'gray';
+      const item = data.favorites.find(obj => obj.key === favKey);
+      const indexItem = data.favorites.indexOf(item);
+      data.favorites.splice(indexItem, 1);
+      updateBodyTable(data.favorites, favtBody, favTableWrapper, 'No favorite activities.');
+    }
+  }
+}
+
+function viewSwap(dataView) {
+  if (dataView === 'favorite-page') {
+    favLink.classList.add('hidden');
+    favPage.classList.remove('hidden');
+    homePage.classList.add('hidden');
+    data.view = dataView;
+    updateBodyTable(data.favorites, favtBody, favTableWrapper, 'No favorite activities.');
+  } else if (dataView === 'home-page') {
+    favLink.classList.remove('hidden');
+    favPage.classList.add('hidden');
+    homePage.classList.remove('hidden');
+    data.view = dataView;
+    updateBodyTable(data.activities, tbody, tableWrapper, null);
+  }
+}
+
+function updateBodyTable(array, tableBody, tableWrapper, text) {
+  tableBody.textContent = '';
+  array.length === 0 ? noMatchFound(tableBody, text) : createTableBody(array, tableBody);
+  array.length <= 16 ? tableWrapper.classList.remove('height') : tableWrapper.classList.add('height');
+}
