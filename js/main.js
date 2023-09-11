@@ -273,6 +273,8 @@ function handleApply(selector, arr, tbody, tableWrapper, filterPill, modal, over
 
 // ********************* IMPLEMENTING FEATURE 4 - Random Generator ******************** //
 const generateButton = document.querySelector('.btn-general');
+const addFavBtn = document.querySelector('#add-fav-btn');
+
 let link = 'https://www.boredapi.com/api/activity/';
 
 const optionForm = document.querySelector('#option-form');
@@ -315,6 +317,8 @@ optionForm.addEventListener('click', event => {
 
 generateButton.addEventListener('click', event => {
   event.preventDefault();
+  addFavBtn.setAttribute('disabled', 'false');
+  addFavBtn.classList.remove('in-active');
 
   for (const radio of radioButtons) {
     if (radio.checked && radio.value === 'type') {
@@ -353,8 +357,8 @@ function generate(link) {
       }
       return response.json();
     })
-    .then(data => {
-      const { activity, type, participants, price, accessibility, link } = data;
+    .then(dataResult => {
+      const { activity, type, participants, price, accessibility, link } = dataResult;
       const activityText = document.querySelector('.activity-text');
       const typeText = document.querySelector('.type-text');
       const participantText = document.querySelector('.participant-text');
@@ -380,6 +384,9 @@ function generate(link) {
         linkText.textContent = link;
         linkText.setAttribute('target', '_blank');
       }
+
+      data.randomGenerator = dataResult;
+
     })
     .catch(error => {
       console.error('Error', error);
@@ -428,6 +435,12 @@ const backHomeButton = document.querySelector('#home-page-button');
 // Set the initial view based on data.view
 viewSwap(data.view);
 
+addFavBtn.addEventListener('click', event => {
+  data.favorites.push(data.randomGenerator);
+  addFavBtn.setAttribute('disabled', 'true');
+  addFavBtn.classList.add('in-active');
+});
+
 favLink.addEventListener('click', event => {
   viewSwap('favorite-page');
 });
@@ -448,7 +461,7 @@ function handleFavActivity(event) {
     if (event.target.classList.contains('fa-solid')) {
       event.target.style.color = 'rgb(240, 199, 96)';
 
-      fetch(`http://www.boredapi.com/api/activity?key=${favKey}`)
+      fetch(`https://www.boredapi.com/api/activity?key=${favKey}`)
         .then(response => {
           if (!response.ok) {
             throw new Error('server status code: $response.status');
@@ -472,17 +485,22 @@ function handleFavActivity(event) {
 
 function viewSwap(dataView) {
   if (dataView === 'favorite-page') {
+    searchFormFav.reset();
+    filterPillFav.classList.add('hidden');
     favLink.classList.add('hidden');
     favPage.classList.remove('hidden');
     homePage.classList.add('hidden');
     data.view = dataView;
     updateBodyTable(data.favorites, favtBody, favTableWrapper, 'No favorite activities.');
   } else if (dataView === 'home-page') {
+    searchForm.reset();
+    filterPill.classList.add('hidden');
     favLink.classList.remove('hidden');
     favPage.classList.add('hidden');
     homePage.classList.remove('hidden');
     data.view = dataView;
-    updateBodyTable(data.activities, tbody, tableWrapper, null);
+    tbody.textContent = '';
+    createTableBody(data.activities, tbody);
   }
 }
 
@@ -491,3 +509,6 @@ function updateBodyTable(array, tableBody, tableWrapper, text) {
   array.length === 0 ? noMatchFound(tableBody, text) : createTableBody(array, tableBody);
   array.length <= 16 ? tableWrapper.classList.remove('height') : tableWrapper.classList.add('height');
 }
+
+// CONTINUE: handle clicking on the +Add to favorite multiple times and its styele
+// Regression test
