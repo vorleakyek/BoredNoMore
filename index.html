@@ -16,6 +16,7 @@
 
 <body>
   <div class="overlay hidden"></div>
+  <div class="overlay-fav hidden"></div>
   <header>
     <div class="container bg-1 flex space-between">
       <div class="column-half">
@@ -36,19 +37,19 @@
               <label for="search-input" class="inline">Search: </label>
               <div class="search-box">
                 <input id="search-input" name="search-input" class="search-input" type="text"
-                  placeholder="Search for an activity type ">
+                  placeholder="Search for activities">
                 <i class="fas fa-search"></i>
               </div>
             </form>
           </div>
           <div class="column-2">
-            <button class="filter">
+            <button class="filter" id="filter">
               <i class="fa-solid fa-filter"></i>
             </button>
           </div>
         </div>
-        <div class="filter-pill hidden">
-          <button class="filter-pill-button">Clear filter <i class="fa-solid fa-x"></i></button>
+        <div class="filter-pill hidden" id="filter-pill">
+          <button class="filter-pill-button" id="filter-pill-button">Clear filter <i class="fa-solid fa-x"></i></button>
         </div>
         <div class="table-wrapper height">
           <table class="activity-table">
@@ -190,7 +191,7 @@
         </div>
       </div>
 
-      <div class="filter-modal flex hidden">
+      <div class="filter-modal flex hidden" id="filter-modal">
         <div class="modal">
           <form id="form-filter-modal" action="">
             <h3 class="title">Filter by type</h3>
@@ -255,22 +256,22 @@
         <div class="search-filter-wrapper flex">
           <div class="column-1">
             <form class="search-area" id="search-form-fav" autocomplete="off">
-              <label for="search-input" class="inline">Search: </label>
+              <label for="search-input-fav" class="inline">Search: </label>
               <div class="search-box">
-                <input id="search-input-fav" name="search-input" class="search-input" type="text"
-                  placeholder="Search for an activity type ">
+                <input id="search-input-fav" name="search-input-fav" class="search-input" type="text"
+                  placeholder="Search for activities">
                 <i class="fas fa-search"></i>
               </div>
             </form>
           </div>
           <div class="column-2">
-            <button class="filter">
+            <button class="filter" id="filter-fav">
               <i class="fa-solid fa-filter"></i>
             </button>
           </div>
         </div>
-        <div class="filter-pill hidden">
-          <button class="filter-pill-button">Clear filter <i class="fa-solid fa-x"></i></button>
+        <div class="filter-pill hidden" id="filter-pill-fav">
+          <button class="filter-pill-button" id="filter-pill-button-fav">Clear filter <i class="fa-solid fa-x"></i></button>
         </div>
         <div class="table-wrapper fav-table height">
           <table class="activity-table">
@@ -301,7 +302,67 @@
       <div>
         <button id="home-page-button" class="btn-general">Back</button>
       </div>
+
+      <div class="filter-modal flex hidden" id="filter-modal-fav" >
+        <div class="modal">
+          <form id="form-filter-modal-fav" action="">
+            <h3 class="title">Filter by type</h3>
+            <div class="options flex">
+              <div class="column-half">
+                <label for="education-1-fav">
+                  <input type="checkbox" name="filter-fav" value="education" id="education-1-fav">
+                  Education
+                </label>
+                <label for="recreational-1-fav">
+                  <input type="checkbox" name="filter-fav" value="recreational" id="recreational-1-fav">
+                  Recreational
+                </label>
+                <label for="social-1-fav">
+                  <input type="checkbox" name="filter-fav" value="social" id="social-1-fav">
+                  Social
+                </label>
+                <label for="diy-1-fav">
+                  <input type="checkbox" name="filter-fav" value="diy" id="diy-1-fav">
+                  DIY
+                </label>
+                <label for="busywork-1-fav">
+                  <input type="checkbox" name="filter-fav" value="busywork" id="busywork-1-fav">
+                  Busywork
+                </label>
+              </div>
+              <div class="column-half">
+                <label for="charity-1-fav">
+                  <input type="checkbox" name="filter-fav" value="charity" id="charity-1-fav">
+                  Charity
+                </label>
+                <label for="cooking-1-fav">
+                  <input type="checkbox" name="filter-fav" value="cooking" id="cooking-1-fav">
+                  Cooking
+                </label>
+                <label for="relaxation-1-fav">
+                  <input type="checkbox" name="filter-fav" value="relaxation" id="relaxation-1-fav">
+                  Relaxation
+                </label>
+                <label for="music-1-fav">
+                  <input type="checkbox" name="filter-fav" value="music" id="music-1-fav">
+                  Music
+                </label>
+              </div>
+            </div>
+            <div class="modal-button flex">
+              <div id="cancel-fav" class="div-btn-modal cancel">
+                <button class="btn-modal">Cancel</button>
+              </div>
+              <div id="apply-fav" class="div-btn-modal apply">
+                <button class="btn-modal">Apply</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
     </div>
+
 
   </main>
 

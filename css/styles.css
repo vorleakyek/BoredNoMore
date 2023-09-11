@@ -227,7 +227,16 @@ i {
   z-index: 1;
 }
 
-.filter-modal {
+.overlay-fav {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(15 54 54 / 92%);
+  z-index: 1;
+}
+
+#filter-modal,
+#filter-modal-fav {
   position: fixed;
   top: 50%;
   left: 50%;
