@@ -15,8 +15,6 @@ let data = {
   }
 };
 
-localStorage.clear();
-
 const previousData = localStorage.getItem('activities');
 
 if (previousData !== null) {

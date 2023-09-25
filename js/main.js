@@ -317,7 +317,8 @@ optionForm.addEventListener('click', event => {
 
 generateButton.addEventListener('click', event => {
   event.preventDefault();
-  addFavBtn.setAttribute('disabled', 'false');
+  addFavBtn.removeAttribute('disabled');
+  addFavBtn.classList.remove('hidden');
   addFavBtn.classList.remove('in-active');
 
   for (const radio of radioButtons) {
@@ -386,6 +387,8 @@ function generate(link) {
       }
 
       data.randomGenerator = dataResult;
+      const jsonString = JSON.stringify(data);
+      localStorage.setItem('activities', jsonString);
 
     })
     .catch(error => {
@@ -509,6 +512,3 @@ function updateBodyTable(array, tableBody, tableWrapper, text) {
   array.length === 0 ? noMatchFound(tableBody, text) : createTableBody(array, tableBody);
   array.length <= 16 ? tableWrapper.classList.remove('height') : tableWrapper.classList.add('height');
 }
-
-// CONTINUE: handle clicking on the +Add to favorite multiple times and its styele
-// Regression test
