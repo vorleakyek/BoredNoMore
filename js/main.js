@@ -1,6 +1,8 @@
 const allTypes = ['education', 'recreational', 'social', 'diy', 'charity', 'cooking', 'relaxation', 'music', 'busywork'];
 const tbody = document.querySelector('tbody.table-body');
+const favtBody = document.querySelector('.fav-table-body');
 const tableWrapper = document.querySelector('.table-wrapper');
+const favTableWrapper = document.querySelector('.fav-table');
 
 // ***************** IMPLEMENTING FEATURE 1 - Fetch data and show table **********//
 async function getActivityObj(type) {
@@ -119,23 +121,36 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // *********************** IMPLEMENTING FEATURE 2 - SEARCH ******************** //
 const searchInput = document.querySelector('#search-input');
+const searchInputFav = document.querySelector('#search-input-fav');
 const searchForm = document.querySelector('#search-form');
+const searchFormFav = document.querySelector('#search-form-fav');
 let searchValue = null;
 
 searchForm.addEventListener('input', event => {
-  event.preventDefault();
-  searchValue = searchInput.value.toLowerCase();
-  const result = matchedResult();
-  tbody.textContent = '';
-  updateBodyTable(result, tbody, tableWrapper, 'No match found!');
+  searchDisplay(searchInput, data.activities, tbody, tableWrapper);
+});
+
+searchFormFav.addEventListener('input', event => {
+  searchDisplay(searchInputFav, data.favorites, favtBody, favTableWrapper);
 });
 
 searchForm.addEventListener('submit', event => {
   event.preventDefault();
 });
 
-function matchedResult() {
-  const result = data.activities.filter(element => matchedCriteria(element));
+searchFormFav.addEventListener('submit', event => {
+  event.preventDefault();
+});
+
+function searchDisplay(inputValue, arr, tbody, tableWrapper) {
+  event.preventDefault();
+  searchValue = inputValue.value.toLowerCase();
+  const result = matchedResult(arr);
+  updateBodyTable(result, tbody, tableWrapper, 'No match found!');
+}
+
+function matchedResult(arr) {
+  const result = arr.filter(element => matchedCriteria(element));
   return result;
 }
 
@@ -166,29 +181,81 @@ function noMatchFound(tbody, displayText) {
 }
 
 // *********************** IMPLEMENTING FEATURE 3 - Filter ******************** //
-const filterButton = document.querySelector('.filter');
+const filterButton = document.querySelector('#filter');
 const overlay = document.querySelector('.overlay');
-const filterModel = document.querySelector('.filter-modal');
+const filterModal = document.querySelector('#filter-modal');
 const cancel = document.querySelector('#cancel');
 const apply = document.querySelector('#apply');
 const form = document.querySelector('#form-filter-modal');
-const filterPill = document.querySelector('.filter-pill');
-const filterPillButton = document.querySelector('.filter-pill-button');
+const filterPill = document.querySelector('#filter-pill');
+const filterPillButton = document.querySelector('#filter-pill-button');
+
+const filterButtonFav = document.querySelector('#filter-fav');
+const overlayFav = document.querySelector('.overlay-fav');
+const filterModalFav = document.querySelector('#filter-modal-fav');
+const cancelFav = document.querySelector('#cancel-fav');
+const applyFav = document.querySelector('#apply-fav');
+const formFav = document.querySelector('#form-filter-modal-fav');
+const filterPillFav = document.querySelector('#filter-pill-fav');
+const filterPillButtonFav = document.querySelector('#filter-pill-button-fav');
 
 filterButton.addEventListener('click', event => {
-  event.preventDefault();
-  overlay.classList.remove('hidden');
-  filterModel.classList.remove('hidden');
+  handleFilterButton(filterModal, overlay);
+});
+
+filterButtonFav.addEventListener('click', event => {
+  handleFilterButton(filterModalFav, overlayFav);
 });
 
 cancel.addEventListener('click', event => {
-  event.preventDefault();
-  hideModal();
+  handleCancel(filterModal, overlay);
+});
+
+cancelFav.addEventListener('click', event => {
+  handleCancel(filterModalFav, overlayFav);
 });
 
 apply.addEventListener('click', event => {
+  handleApply('filter', data.activities, tbody, tableWrapper, filterPill, filterModal, overlay, form);
+});
+
+applyFav.addEventListener('click', event => {
+  handleApply('filter-fav', data.favorites, favtBody, favTableWrapper, filterPillFav, filterModalFav, overlayFav, formFav);
+});
+
+filterPillButton.addEventListener('click', event => {
+  displayFavList(filterPill, tbody, data.activities, tableWrapper);
+});
+
+filterPillButtonFav.addEventListener('click', event => {
+  displayFavList(filterPillFav, favtBody, data.favorites, favTableWrapper);
+});
+
+function displayFavList(filterPill, tbody, arr, tableWrapper) {
   event.preventDefault();
-  const checked = document.querySelectorAll('input[name="filter"]:checked');
+  filterPill.classList.add('hidden');
+  updateBodyTable(arr, tbody, tableWrapper, 'No Favorite Activity.');
+}
+
+function hideModal(modal, overlay) {
+  overlay.classList.add('hidden');
+  modal.classList.add('hidden');
+}
+
+function handleCancel(modal, overlay) {
+  event.preventDefault();
+  hideModal(modal, overlay);
+}
+
+function handleFilterButton(modal, overlay) {
+  event.preventDefault();
+  overlay.classList.remove('hidden');
+  modal.classList.remove('hidden');
+}
+
+function handleApply(selector, arr, tbody, tableWrapper, filterPill, modal, overlay, form) {
+  event.preventDefault();
+  const checked = document.querySelectorAll(`input[name=${selector}]:checked`);
   const arraySelected = [];
 
   checked.forEach(select => {
@@ -196,31 +263,18 @@ apply.addEventListener('click', event => {
   });
 
   const stringInput = arraySelected.join(' ');
-  const result = data.activities.filter(element =>
+  const result = arr.filter(element =>
     element.type.includes(stringInput) || stringInput.includes(element.type));
-  tbody.textContent = '';
-  createTableBody(result, tbody);
-  result.length <= 16 ? tableWrapper.classList.remove('height') : tableWrapper.classList.add('height');
-  hideModal();
+  updateBodyTable(result, tbody, tableWrapper, 'No match found');
+  hideModal(modal, overlay);
   filterPill.classList.remove('hidden');
   form.reset();
-});
-
-filterPillButton.addEventListener('click', event => {
-  event.preventDefault();
-  filterPill.classList.add('hidden');
-  tbody.textContent = '';
-  createTableBody(data.activities, tbody);
-  tableWrapper.classList.add('height');
-});
-
-function hideModal() {
-  overlay.classList.add('hidden');
-  filterModel.classList.add('hidden');
 }
 
 // ********************* IMPLEMENTING FEATURE 4 - Random Generator ******************** //
 const generateButton = document.querySelector('.btn-general');
+const addFavBtn = document.querySelector('#add-fav-btn');
+
 let link = 'https://www.boredapi.com/api/activity/';
 
 const optionForm = document.querySelector('#option-form');
@@ -263,6 +317,9 @@ optionForm.addEventListener('click', event => {
 
 generateButton.addEventListener('click', event => {
   event.preventDefault();
+  addFavBtn.removeAttribute('disabled');
+  addFavBtn.classList.remove('hidden');
+  addFavBtn.classList.remove('in-active');
 
   for (const radio of radioButtons) {
     if (radio.checked && radio.value === 'type') {
@@ -301,8 +358,8 @@ function generate(link) {
       }
       return response.json();
     })
-    .then(data => {
-      const { activity, type, participants, price, accessibility, link } = data;
+    .then(dataResult => {
+      const { activity, type, participants, price, accessibility, link } = dataResult;
       const activityText = document.querySelector('.activity-text');
       const typeText = document.querySelector('.type-text');
       const participantText = document.querySelector('.participant-text');
@@ -328,6 +385,11 @@ function generate(link) {
         linkText.textContent = link;
         linkText.setAttribute('target', '_blank');
       }
+
+      data.randomGenerator = dataResult;
+      const jsonString = JSON.stringify(data);
+      localStorage.setItem('activities', jsonString);
+
     })
     .catch(error => {
       console.error('Error', error);
@@ -372,11 +434,15 @@ const favPage = document.querySelector('[data-view="favorite-page"]');
 const homePage = document.querySelector('[data-view="home-page"]');
 const favLink = document.querySelector('.fav-link');
 const backHomeButton = document.querySelector('#home-page-button');
-const favtBody = document.querySelector('.fav-table-body');
-const favTableWrapper = document.querySelector('.fav-table');
 
 // Set the initial view based on data.view
 viewSwap(data.view);
+
+addFavBtn.addEventListener('click', event => {
+  data.favorites.push(data.randomGenerator);
+  addFavBtn.setAttribute('disabled', 'true');
+  addFavBtn.classList.add('in-active');
+});
 
 favLink.addEventListener('click', event => {
   viewSwap('favorite-page');
@@ -398,7 +464,7 @@ function handleFavActivity(event) {
     if (event.target.classList.contains('fa-solid')) {
       event.target.style.color = 'rgb(240, 199, 96)';
 
-      fetch(`http://www.boredapi.com/api/activity?key=${favKey}`)
+      fetch(`https://www.boredapi.com/api/activity?key=${favKey}`)
         .then(response => {
           if (!response.ok) {
             throw new Error('server status code: $response.status');
@@ -422,17 +488,22 @@ function handleFavActivity(event) {
 
 function viewSwap(dataView) {
   if (dataView === 'favorite-page') {
+    searchFormFav.reset();
+    filterPillFav.classList.add('hidden');
     favLink.classList.add('hidden');
     favPage.classList.remove('hidden');
     homePage.classList.add('hidden');
     data.view = dataView;
     updateBodyTable(data.favorites, favtBody, favTableWrapper, 'No favorite activities.');
   } else if (dataView === 'home-page') {
+    searchForm.reset();
+    filterPill.classList.add('hidden');
     favLink.classList.remove('hidden');
     favPage.classList.add('hidden');
     homePage.classList.remove('hidden');
     data.view = dataView;
-    updateBodyTable(data.activities, tbody, tableWrapper, null);
+    tbody.textContent = '';
+    createTableBody(data.activities, tbody);
   }
 }
 

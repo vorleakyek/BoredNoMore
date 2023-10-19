@@ -227,7 +227,16 @@ i {
   z-index: 1;
 }
 
-.filter-modal {
+.overlay-fav {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(15 54 54 / 92%);
+  z-index: 1;
+}
+
+#filter-modal,
+#filter-modal-fav {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -356,4 +365,35 @@ div.apply button:focus {
 .fav-activity .title {
   margin-top: 0;
   padding-top: 1rem;
+}
+
+.fa-plus {
+  font-size: 1rem;
+  color: #067575;
+}
+
+.add-fav-btn {
+  background-color: #48bcd1;
+  color: white;
+  border: none;
+  border-radius: 0.3rem;
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+}
+
+.add-fav-btn:hover {
+  background-color: #07b2b2;
+}
+
+.add-fav-btn:active {
+  background-color: #067575;
+}
+
+.in-active {
+  background-color: lightgray;
+  color: darkgray;
+}
+
+.in-active:hover {
+  background-color: lightgray;
 }
