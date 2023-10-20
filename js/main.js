@@ -191,11 +191,6 @@ const filterPill = document.querySelector('#filter-pill');
 const filterPillButton = document.querySelector('#filter-pill-button');
 
 const filterButtonFav = document.querySelector('#filter-fav');
-const overlayFav = document.querySelector('.overlay-fav');
-const filterModalFav = document.querySelector('#filter-modal-fav');
-const cancelFav = document.querySelector('#cancel-fav');
-const applyFav = document.querySelector('#apply-fav');
-const formFav = document.querySelector('#form-filter-modal-fav');
 const filterPillFav = document.querySelector('#filter-pill-fav');
 const filterPillButtonFav = document.querySelector('#filter-pill-button-fav');
 
@@ -204,23 +199,20 @@ filterButton.addEventListener('click', event => {
 });
 
 filterButtonFav.addEventListener('click', event => {
-  handleFilterButton(filterModalFav, overlayFav);
+  handleFilterButton(filterModal, overlay);
 });
 
 cancel.addEventListener('click', event => {
   handleCancel(filterModal, overlay);
 });
 
-cancelFav.addEventListener('click', event => {
-  handleCancel(filterModalFav, overlayFav);
-});
-
 apply.addEventListener('click', event => {
-  handleApply('filter', data.activities, tbody, tableWrapper, filterPill, filterModal, overlay, form);
-});
+  if (data.view === 'home-page') {
+    handleApply('filter', data.activities, tbody, tableWrapper, filterPill, filterModal, overlay, form);
+  } else {
+    handleApply('filter', data.favorites, favtBody, favTableWrapper, filterPillFav, filterModal, overlay, form);
+  }
 
-applyFav.addEventListener('click', event => {
-  handleApply('filter-fav', data.favorites, favtBody, favTableWrapper, filterPillFav, filterModalFav, overlayFav, formFav);
 });
 
 filterPillButton.addEventListener('click', event => {
@@ -387,8 +379,8 @@ function generate(link) {
       }
 
       data.randomGenerator = dataResult;
-      const jsonString = JSON.stringify(data);
-      localStorage.setItem('activities', jsonString);
+      // const jsonString = JSON.stringify(data);
+      // localStorage.setItem('activities', jsonString);
 
     })
     .catch(error => {
@@ -473,8 +465,8 @@ function handleFavActivity(event) {
         })
         .then(dataResult => {
           data.favorites.push(dataResult);
-          const jsonString = JSON.stringify(data);
-          localStorage.setItem('activities', jsonString);
+          // const jsonString = JSON.stringify(data);
+          // localStorage.setItem('activities', jsonString);
         });
     } else {
       event.target.style.color = 'gray';
