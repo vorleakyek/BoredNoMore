@@ -19,14 +19,14 @@ Try the application live at [https://vorleakyek.github.io/BoredNoMore/](https://
 
 ## Features
 
-- User can view a table of activities
-- User can search and filter for activities
-- User can generate a random activity
-- User can add a favorite activity
-- User can prove a feedback
+- Users can view a table of activities
+- Users can search and filter for activities
+- Users can generate a random activity
+- Users can add a favorite activity
+- Users can provide a feedback
 
 ## Preview
-![https://vorleakyek.github.io/BoredNoMore/](images/BoreNoMore.gif)
+![BoreNoMore](images/BoreNoMore.gif)
 
 ## Development
 - Add table pagination
@@ -40,8 +40,14 @@ Try the application live at [https://vorleakyek.github.io/BoredNoMore/](https://
 
 1. Clone the repository.
 
-  ```shell
-  git clone https://github.com/vorleakyek/BoredNoMore.git
-  ```
+    ```shell
+    git clone https://github.com/vorleakyek/BoredNoMore.git
+    ```
 
-2. Start the project. Once started you can view the application by right click on the index.html and select "Open with LiveReload Server" to open the web page on a browser.
+2. Install all dependencies with NPM.
+
+    ```shell
+    npm install
+    ```
+
+3. Start the project. Once started you can view the application by right click on the `index.html` and select `Open with LiveReload Server` to open the web page on a browser.
