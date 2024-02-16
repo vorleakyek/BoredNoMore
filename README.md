@@ -36,7 +36,7 @@ Try the application live at [https://vorleakyek.github.io/BoredNoMore/](https://
 
 - Node.js 18 or higher
 
-## Getting Started
+### Getting Started
 
 1. Clone the repository.
 
