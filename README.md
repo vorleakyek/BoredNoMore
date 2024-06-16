@@ -16,6 +16,7 @@ I want to learn how to fetch data from an API and build a table pattern along wi
 ## Live Demo
 
 Try the application live at [https://vorleakyek.github.io/BoredNoMore/](https://vorleakyek.github.io/BoredNoMore/)
+Note: It seems that the Bored api website is down, which results in an empty table.
 
 ## Features
 
