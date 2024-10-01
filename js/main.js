@@ -7,33 +7,38 @@ const favTableWrapper = document.querySelector('.fav-table');
 // ***************** IMPLEMENTING FEATURE 1 - Fetch data and show table **********//
 async function getActivityObj(type) {
   try {
-    const response = await fetch(`https://www.boredapi.com/api/activity?type=${type}`);
+    const response = await fetch(`https://thingproxy.freeboard.io/fetch/https://bored-api.appbrewery.com/filter?type=${type}`);
 
     if (!response.ok) {
-      throw new Error(`server status code: ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const activityObj = await response.json();
-    return data.activities.push(activityObj);
+    const activityObjArr = await response.json();
+    // const activityObjArr = apiData;
+    const arr = [];
+
+    for (let i = 0; i < 3; i++) {
+      const randomIndex = Math.floor(Math.random() * activityObjArr.length);
+      arr.push(activityObjArr[randomIndex]);
+    }
+    return data.activities.push(...arr);
 
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error fetching data:', error);
   }
 }
 
 // ONLY want to run this code one time initially
 if (data.activities.length === 0) {
-  for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < allTypes.length; j++) {
-      getActivityObj(allTypes[j]);
-    }
+  for (let j = 0; j < allTypes.length; j++) {
+    getActivityObj(allTypes[j]);
   }
 }
 
 // Need to wait for a few seconds for all the data from API to be fully retrieved
 setTimeout(() => {
   createTableBody(data.activities, tbody);
-}, 1000);
+}, 1500);
 
 function createTableBody(array, tbody) {
   for (let i = 0; i < array.length; i++) {
@@ -275,7 +280,7 @@ function handleApply(selector, arr, tbody, tableWrapper, filterPill, modal, over
 const generateButton = document.querySelector('.btn-general');
 const addFavBtn = document.querySelector('#add-fav-btn');
 
-let link = 'https://www.boredapi.com/api/activity/';
+let link = 'https://bored-api.appbrewery.com/random';
 
 const optionForm = document.querySelector('#option-form');
 const radioButtons = optionForm.querySelectorAll('input[type="radio"]');
