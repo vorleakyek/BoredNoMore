@@ -155,6 +155,10 @@ td,
   padding: 0.125rem 0;
 }
 
+.accessibility-input-wrapper label {
+  display: block;
+}
+
 /* Search and filter */
 .search-filter-wrapper {
   align-items: baseline;

@@ -70,7 +70,7 @@
         </div>
         <div class="flex notes">
           <p class="column-half">
-            <span class="bold">Accessibility:</span> zero for being the most accessible
+            <span class="bold">Accessibility:</span> few to no challenges - major challenges
           </p>
           <p class="column-half">
             <span class="bold">Price:</span> zero for being free
@@ -89,41 +89,41 @@
               <div class="options flex hidden">
                 <div class="column-half">
                   <label for="education">
-                    <input type="checkbox" name="filter" value="education" id="education">
+                    <input type="radio" name="filter" value="education" id="education">
                     Education
                   </label>
                   <label for="recreational">
-                    <input type="checkbox" name="filter" value="recreational" id="recreational">
+                    <input type="radio" name="filter" value="recreational" id="recreational">
                     Recreational
                   </label>
                   <label for="social">
-                    <input type="checkbox" name="filter" value="social" id="social">
+                    <input type="radio" name="filter" value="social" id="social">
                     Social
                   </label>
                   <label for="diy">
-                    <input type="checkbox" name="filter" value="diy" id="diy">
+                    <input type="radio" name="filter" value="diy" id="diy">
                     DIY
                   </label>
                   <label for="busywork">
-                    <input type="checkbox" name="filter" value="busywork" id="busywork">
+                    <input type="radio" name="filter" value="busywork" id="busywork">
                     Busywork
                   </label>
                 </div>
                 <div class="column-half">
                   <label for="charity">
-                    <input type="checkbox" name="filter" value="charity" id="charity">
+                    <input type="radio" name="filter" value="charity" id="charity">
                     Charity
                   </label>
                   <label for="cooking">
-                    <input type="checkbox" name="filter" value="cooking" id="cooking">
+                    <input type="radio" name="filter" value="cooking" id="cooking">
                     Cooking
                   </label>
                   <label for="relaxation">
-                    <input type="checkbox" name="filter" value="relaxation" id="relaxation">
+                    <input type="radio" name="filter" value="relaxation" id="relaxation">
                     Relaxation
                   </label>
                   <label for="music">
-                    <input type="checkbox" name="filter" value="music" id="music">
+                    <input type="radio" name="filter" value="music" id="music">
                     Music
                   </label>
                 </div>
@@ -134,8 +134,9 @@
               <input type="radio" id="participant" name="gen-opt" value="participant">
               <label for="participant">Participant</label>
               <div class="participant-input-wrapper hidden">
-                <label for="participant-number">Enter a number: </label>
-                <input id="participant-number" type="number" min="1" max="5">
+                <label for="participant-number">Enter a number: <input id="participant-number" type="number" min="1"
+                    max="5"> (max 5)</label>
+
               </div>
             </div>
 
@@ -143,11 +144,20 @@
               <input type="radio" id="accessibility" name="gen-opt" value="accessibility">
               <label for="accessibility">Accessibility</label>
               <div class="accessibility-input-wrapper hidden">
-                <label for="access-min">Min: </label>
-                <input id="access-min" type="number" min="0" max="1">
-                <label for="access-max">and </label>
-                <input id="access-max" type="number" min="0" max="1">
+                <label for="few-to-no">
+                  <input type="radio" name="accessibility" value="Few to no challenges" id="few-to-no">
+                  Few to no challenges
+                </label>
+                <label for="minor">
+                  <input type="radio" name="accessibility" value="Minor challenges" id="minor">
+                  Minor challenges
+                </label>
+                <label for="major">
+                  <input type="radio" name="accessibility" value="Major challenges" id="major">
+                  Major challenges
+                </label>
               </div>
+
             </div>
 
             <div>
@@ -171,7 +181,7 @@
           <p><span class="bold">Participant: </span><span class="participant-text"></span></p>
           <p><span class="bold">Accessibility: </span><span class="accessibility-text"></span></p>
           <p><span class="bold">Price: </span><span class="price-text"></p>
-          <p><span class="bold">Link: </span><span class="link-span"><a class="link-text" href="https://expressjs.com/"
+          <p><span class="bold">Link: </span><span class="link-span"><a class="link-text" href=""
                 target="_blank"></a></span></p>
           <button class="add-fav-btn hidden" id="add-fav-btn">
             <i class="fa-solid fa-plus"></i> Add to favorite
@@ -275,7 +285,8 @@
           </div>
         </div>
         <div class="filter-pill hidden" id="filter-pill-fav">
-          <button class="filter-pill-button" id="filter-pill-button-fav">Clear filter <i class="fa-solid fa-x"></i></button>
+          <button class="filter-pill-button" id="filter-pill-button-fav">Clear filter <i
+              class="fa-solid fa-x"></i></button>
         </div>
         <div class="table-wrapper fav-table height">
           <table class="activity-table">
@@ -307,7 +318,7 @@
         <button id="home-page-button" class="btn-general">Back</button>
       </div>
 
-      <div class="filter-modal flex hidden" id="filter-modal-fav" >
+      <div class="filter-modal flex hidden" id="filter-modal-fav">
         <div class="modal">
           <form id="form-filter-modal-fav" action="">
             <h3 class="title">Filter by type</h3>
@@ -370,6 +381,7 @@
 
   </main>
 
+  <script src="js/api-data.js"></script>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
