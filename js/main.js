@@ -7,17 +7,13 @@ const favTableWrapper = document.querySelector('.fav-table');
 // ***************** IMPLEMENTING FEATURE 1 - Fetch data and show table **********//
 async function getActivityObj(type) {
   try {
-    // const response = await fetch(`https://thingproxy.freeboard.io/fetch/https://bored-api.appbrewery.com/filter?type=${type}`);
-    const response = await fetch('https://bored-api.appbrewery.com/filter?type=education', {
-      mode: 'no-cors'
-    });
+    const response = await fetch(`https://thingproxy.freeboard.io/fetch/https://bored-api.appbrewery.com/filter?type=${type}`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const activityObjArr = await response.json();
-    // const activityObjArr = apiData;
     const arr = [];
 
     for (let i = 0; i < 3; i++) {
