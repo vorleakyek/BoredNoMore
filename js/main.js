@@ -5,39 +5,26 @@ const tableWrapper = document.querySelector('.table-wrapper');
 const favTableWrapper = document.querySelector('.fav-table');
 
 // ***************** IMPLEMENTING FEATURE 1 - Fetch data and show table **********//
-async function getActivityObj(type) {
-  try {
-    const response = await fetch(`https://thingproxy.freeboard.io/fetch/https://bored-api.appbrewery.com/filter?type=${type}`);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+function getActivityObj(apiData, type) {
 
-    const activityObjArr = await response.json();
-    const arr = [];
+  const activityObjArr = apiData.filter(obj => obj.type === type);
+  const arr = [];
 
-    for (let i = 0; i < 3; i++) {
-      const randomIndex = Math.floor(Math.random() * activityObjArr.length);
-      arr.push(activityObjArr[randomIndex]);
-    }
-    return data.activities.push(...arr);
-
-  } catch (error) {
-    console.error('Error fetching data:', error);
+  for (let i = 0; i < 5; i++) {
+    const randomIndex = Math.floor(Math.random() * activityObjArr.length);
+    arr.push(activityObjArr[randomIndex]);
   }
+
+  return data.activities.push(...arr);
 }
 
 // ONLY want to run this code one time initially
 if (data.activities.length === 0) {
   for (let j = 0; j < allTypes.length; j++) {
-    getActivityObj(allTypes[j]);
+    getActivityObj(apiData, allTypes[j]);
   }
 }
-
-// Need to wait for a few seconds for all the data from API to be fully retrieved
-setTimeout(() => {
-  createTableBody(data.activities, tbody);
-}, 1500);
 
 function createTableBody(array, tbody) {
   for (let i = 0; i < array.length; i++) {
@@ -279,14 +266,11 @@ function handleApply(selector, arr, tbody, tableWrapper, filterPill, modal, over
 const generateButton = document.querySelector('.btn-general');
 const addFavBtn = document.querySelector('#add-fav-btn');
 
-let link = 'https://bored-api.appbrewery.com/random';
-
 const optionForm = document.querySelector('#option-form');
 const radioButtons = optionForm.querySelectorAll('input[type="radio"]');
-const checkBoxes = optionForm.querySelectorAll('input[type="checkbox"]');
+const typeValues = optionForm.querySelectorAll('input[name="filter"]');
 const participantNum = document.querySelector('#participant-number');
-const accessMin = document.querySelector('#access-min');
-const accessMax = document.querySelector('#access-max');
+const accessibilityValues = optionForm.querySelectorAll('input[name="accessibility"]');
 const priceMin = document.querySelector('#price-min');
 const priceMax = document.querySelector('#price-max');
 
@@ -327,78 +311,71 @@ generateButton.addEventListener('click', event => {
 
   for (const radio of radioButtons) {
     if (radio.checked && radio.value === 'type') {
-      for (const checkbox of checkBoxes) {
-        if (checkbox.checked) {
-          link = `https://www.boredapi.com/api/activity?type=${checkbox.value}`;
-          generate(link);
+      for (const selectedValue of typeValues) {
+        if (selectedValue.checked) {
+          const result = apiData.filter(obj => obj.type === selectedValue.value);
+          getDataType(result);
         }
       }
     } else if (radio.checked && radio.value === 'participant') {
-      link = `https://www.boredapi.com/api/activity?participants=${participantNum.value}`;
-      generate(link);
+      const result = apiData.filter(obj => obj.participants == participantNum.value);
+      getDataType(result);
+
     } else if (radio.checked && radio.value === 'accessibility') {
-      if (accessMin.value !== accessMax.value) {
-        link = `https://www.boredapi.com/api/activity?minaccessibility=${accessMin.value}&maxaccessibility=${accessMax.value}`;
-      } else {
-        link = `https://www.boredapi.com/api/activity?accessibility=${accessMin.value}`;
+      for (const selectedValue of accessibilityValues) {
+        if (selectedValue.checked) {
+          const result = apiData.filter(obj => obj.accessibility === selectedValue.value);
+          console.log(selectedValue)
+          getDataType(result);
+        }
       }
-      generate(link);
     } else if (radio.checked && radio.value === 'price') {
-      if (priceMin.value !== priceMax.value) {
-        link = `https://www.boredapi.com/api/activity?minprice=${priceMin.value}&maxprice=${priceMax.value}`;
-      } else {
-        link = `https://www.boredapi.com/api/activity?price=${priceMin.value}`;
-      }
-      generate(link);
+      const result = apiData.filter(obj => (obj.price >= priceMin.value) && (obj.price <= priceMax.value));
+      getDataType(result);
     }
   }
 });
 
-function generate(link) {
-  fetch(link)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`server status code: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(dataResult => {
-      const { activity, type, participants, price, accessibility, link } = dataResult;
-      const activityText = document.querySelector('.activity-text');
-      const typeText = document.querySelector('.type-text');
-      const participantText = document.querySelector('.participant-text');
-      const accessibilityText = document.querySelector('.accessibility-text');
-      const priceText = document.querySelector('.price-text');
-      const linkSpan = document.querySelector('.link-span');
 
-      activityText.textContent = activity;
-      typeText.textContent = type;
-      participantText.textContent = participants;
-      accessibilityText.textContent = accessibility;
-      priceText.textContent = price;
 
-      if (link === '') {
-        linkSpan.textContent = 'Not available';
-      } else {
-        linkSpan.textContent = '';
-        const a = document.createElement('a');
-        linkSpan.append(a);
-        a.className = 'link-text';
-        const linkText = document.querySelector('.link-text');
-        linkText.setAttribute('href', link);
-        linkText.textContent = link;
-        linkText.setAttribute('target', '_blank');
-      }
 
-      data.randomGenerator = dataResult;
-      const jsonString = JSON.stringify(data);
-      localStorage.setItem('activities', jsonString);
+function getDataType(result) {
+  const randomIndex = Math.floor(Math.random() * result.length);
+  const dataResult = result[randomIndex];
 
-    })
-    .catch(error => {
-      console.error('Error', error);
-    });
+  const { activity, type, participants, price, accessibility, link } = dataResult;
+  const activityText = document.querySelector('.activity-text');
+  const typeText = document.querySelector('.type-text');
+  const participantText = document.querySelector('.participant-text');
+  const accessibilityText = document.querySelector('.accessibility-text');
+  const priceText = document.querySelector('.price-text');
+  const linkSpan = document.querySelector('.link-span');
+
+  activityText.textContent = activity;
+  typeText.textContent = type;
+  participantText.textContent = participants;
+  accessibilityText.textContent = accessibility;
+  priceText.textContent = price;
+
+  if (link === '') {
+    linkSpan.textContent = 'Not available';
+  } else {
+    linkSpan.textContent = '';
+    const a = document.createElement('a');
+    linkSpan.append(a);
+    a.className = 'link-text';
+    const linkText = document.querySelector('.link-text');
+    linkText.setAttribute('href', link);
+    linkText.textContent = link;
+    linkText.setAttribute('target', '_blank');
+  }
+
+  data.randomGenerator = dataResult;
+  const jsonString = JSON.stringify(data);
+  localStorage.setItem('activities', jsonString);
 }
+
+
 
 // ********************* IMPLEMENTING FEATURE 5 - User Feedback ******************** //
 const feedbackInput = document.querySelector('.feedback-input');
