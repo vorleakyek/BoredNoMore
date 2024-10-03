@@ -11,13 +11,17 @@ function getActivityObj(apiData, type) {
   const activityObjArr = apiData.filter(obj => obj.type === type);
   const arr = [];
 
-  for (let i = 0; i < 5; i++) {
+  while (arr.length < 5) {
     const randomIndex = Math.floor(Math.random() * activityObjArr.length);
-    arr.push(activityObjArr[randomIndex]);
+    const isExisted = arr.find(obj => obj.key === activityObjArr[randomIndex].key);
+    if (!isExisted) {
+      arr.push(activityObjArr[randomIndex]);
+    }
   }
 
   return data.activities.push(...arr);
 }
+
 
 // ONLY want to run this code one time initially
 if (data.activities.length === 0) {
@@ -325,7 +329,6 @@ generateButton.addEventListener('click', event => {
       for (const selectedValue of accessibilityValues) {
         if (selectedValue.checked) {
           const result = apiData.filter(obj => obj.accessibility === selectedValue.value);
-          console.log(selectedValue)
           getDataType(result);
         }
       }
@@ -445,18 +448,8 @@ function handleFavActivity(event) {
     if (event.target.classList.contains('fa-solid')) {
       event.target.style.color = 'rgb(240, 199, 96)';
 
-      fetch(`https://www.boredapi.com/api/activity?key=${favKey}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('server status code: $response.status');
-          }
-          return response.json();
-        })
-        .then(dataResult => {
-          data.favorites.push(dataResult);
-          const jsonString = JSON.stringify(data);
-          localStorage.setItem('activities', jsonString);
-        });
+      const favAct = apiData.filter(obj => obj.key === favKey);
+      data.favorites.push(...favAct);
     } else {
       event.target.style.color = 'gray';
       const item = data.favorites.find(obj => obj.key === favKey);
